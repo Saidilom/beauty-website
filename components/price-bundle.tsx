@@ -27,7 +27,7 @@ export function PriceBundle() {
   const savings = totalPrice - bundlePrice
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-br from-purple-50 to-pink-50">
+    <section id="price-bundle" className="animate-fade-in py-20 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <Badge className="mb-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-6 py-2 text-lg">

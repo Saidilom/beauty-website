@@ -61,10 +61,14 @@ export function AboutProduct() {
     "Устранение отеков и темных кругов",
   ]
 
-  if (loading) return null
+  if (loading) return (
+    <section className="min-h-[400px] flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+    </section>
+  );
 
   return (
-    <section id="about-product" className="py-20 px-4 bg-white">
+    <section id="about-product" className="animate-fade-in py-20 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <Badge className="mb-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 text-lg">

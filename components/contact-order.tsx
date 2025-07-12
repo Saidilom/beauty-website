@@ -13,7 +13,7 @@ export function ContactOrder() {
   ]
 
   return (
-    <section id="order" className="py-20 px-4 bg-gradient-to-br from-purple-600 via-pink-600 to-purple-700">
+    <section id="order" className="animate-fade-in py-20 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16 text-white">
           <Badge className="mb-4 bg-white text-purple-600 px-6 py-2 text-lg font-semibold">Оформить заказ</Badge>

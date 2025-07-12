@@ -28,10 +28,14 @@ export function Hero() {
         { icon: Clock, text: "Видимый эффект за 2 недели" },
       ]
 
-  if (loading) return null
+  if (loading) return (
+    <section className="min-h-[400px] flex items-center justify-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500"></div>
+    </section>
+  );
 
   return (
-    <section id="home" className="pt-16 min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
+    <section id="home" className="animate-fade-in pt-16 min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
       <div className="max-w-7xl mx-auto px-4 py-20">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}

@@ -56,7 +56,7 @@ export function FAQ() {
   }
 
   return (
-    <section id="faq" className="py-20 px-4 bg-gradient-to-br from-gray-50 to-white">
+    <section id="faq" className="animate-fade-in py-20 px-4 bg-gradient-to-br from-purple-50 to-pink-50">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <Badge className="mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-2 text-lg">
