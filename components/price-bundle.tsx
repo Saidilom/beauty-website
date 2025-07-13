@@ -27,8 +27,8 @@ export function PriceBundle() {
   const savings = totalPrice - bundlePrice
 
   return (
-    <section id="price-bundle" className="animate-fade-in py-10 sm:py-20 px-2 sm:px-4 bg-white w-full max-w-full">
-      <div className="max-w-6xl mx-auto w-full max-w-full">
+    <section id="price-bundle" className="animate-fade-in py-10 sm:py-20 px-2 sm:px-4 bg-white">
+      <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8 sm:mb-16">
           <Badge className="mb-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 sm:px-6 py-2 text-base sm:text-lg">
             Специальное предложение
@@ -41,9 +41,9 @@ export function PriceBundle() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-12 w-full max-w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-12">
           {/* Bundle Contents */}
-          <Card className="p-4 sm:p-8 bg-white shadow-2xl w-full max-w-full">
+          <Card className="p-4 sm:p-8 bg-white shadow-2xl">
             <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800 flex items-center gap-2">
               <ShoppingBag className="h-6 w-6 text-purple-600" />
               Состав набора
@@ -52,8 +52,8 @@ export function PriceBundle() {
             <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
               {bundleItems.map((item, index) => (
                 <div key={index} className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
-                  <span className="text-gray-700 text-sm sm:text-base font-medium">{item.name}</span>
-                  <span className="text-purple-600 text-sm sm:text-base font-bold">{item.price}</span>
+                  <span className="text-gray-700 text-sm sm:text-base font-medium flex-1 mr-2">{item.name}</span>
+                  <span className="text-purple-600 text-sm sm:text-base font-bold flex-shrink-0">{item.price}</span>
                 </div>
               ))}
             </div>
@@ -76,17 +76,17 @@ export function PriceBundle() {
           </Card>
 
           {/* Bonuses and CTA */}
-          <div className="space-y-4 sm:space-y-8 w-full max-w-full">
-            <Card className="p-4 sm:p-8 bg-gradient-to-br from-white to-gray-50 w-full max-w-full">
+          <div className="space-y-4 sm:space-y-8">
+            <Card className="p-4 sm:p-8 bg-gradient-to-br from-white to-gray-50">
               <h3 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-800">Дополнительные бонусы</h3>
 
               <div className="space-y-4 sm:space-y-6 mb-6 sm:mb-8">
                 {bonuses.map((bonus, index) => (
                   <div key={index} className="flex items-start gap-3 sm:gap-4">
-                    <div className="p-2 sm:p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg text-white">
+                    <div className="p-2 sm:p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg text-white flex-shrink-0">
                       <bonus.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                     </div>
-                    <div>
+                    <div className="flex-1">
                       <h4 className="text-base sm:text-lg font-semibold text-gray-800 mb-1">{bonus.title}</h4>
                       <p className="text-gray-600 text-xs sm:text-base">{bonus.description}</p>
                     </div>
@@ -95,7 +95,7 @@ export function PriceBundle() {
               </div>
             </Card>
 
-            <Card className="p-4 sm:p-8 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-center w-full max-w-full">
+            <Card className="p-4 sm:p-8 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-center">
               <h3 className="text-2xl sm:text-3xl font-bold mb-2 sm:mb-4">Готовы начать преображение?</h3>
               <p className="text-base sm:text-xl mb-4 sm:mb-6 opacity-90">Полный комплекс для профессионального ухода за кожей</p>
 

@@ -105,9 +105,9 @@ export function AdditionalProducts() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 mb-8 sm:mb-12">
           {displayProducts.map((product) => (
-            <Card key={product.id} className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden bg-white w-full max-w-full">
+            <Card key={product.id} className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden bg-white">
               <CardHeader className="pb-2 sm:pb-4">
-                <div className="relative h-[40vw] min-h-[140px] max-h-[220px] sm:h-64 mb-2 sm:mb-4 bg-white rounded-lg overflow-hidden shadow-inner w-full max-w-full">
+                <div className="relative h-[40vw] min-h-[140px] max-h-[220px] sm:h-64 mb-2 sm:mb-4 bg-white rounded-lg overflow-hidden shadow-inner">
                     <Image
                       src={product.image || "/placeholder.svg"}
                     alt={product.shortName || "Продукт"}

@@ -29,11 +29,11 @@ export function Hero() {
       ]
 
   if (loading) return (
-    <section id="home" className="animate-fade-in pt-16 min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50 w-full max-w-full">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4 py-10 sm:py-20 w-full max-w-full">
-        <div className="grid lg:grid-cols-2 gap-4 sm:gap-12 items-center w-full max-w-full">
+    <section id="home" className="animate-fade-in pt-16 min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4 py-10 sm:py-20">
+        <div className="grid lg:grid-cols-2 gap-6 sm:gap-12 items-center">
           {/* Left Content */}
-          <div className="space-y-4 sm:space-y-8 w-full max-w-full">
+          <div className="space-y-6 sm:space-y-8">
             <div>
               <Badge className="mb-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 py-2 sm:px-4 sm:py-2">
                 {"Эксклюзивное предложение"}
@@ -50,14 +50,14 @@ export function Hero() {
                 {"RF/LED устройство IntelliDerm Solutions® + премиальная косметика Mary Kay. Полный комплекс для профессионального ухода за кожей."}
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               {[
                 { icon: Sparkles, text: "Профессиональный результат дома" },
                 { icon: Zap, text: "RF/LED технология нового поколения" },
                 { icon: Shield, text: "Безопасно и эффективно" },
                 { icon: Clock, text: "Видимый эффект за 2 недели" },
               ].map((benefit, index) => (
-                <div key={index} className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-white rounded-lg shadow-sm w-full max-w-full">
+                <div key={index} className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-white rounded-lg shadow-sm">
                   <div className="p-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg text-white">
                     <benefit.icon className="h-5 w-5" />
                   </div>
@@ -65,7 +65,7 @@ export function Hero() {
                 </div>
               ))}
             </div>
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full">
               <Button
                 size="lg"
                 className="w-full sm:w-auto bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
@@ -84,14 +84,14 @@ export function Hero() {
             </div>
           </div>
           {/* Right Content - Device Image */}
-          <div className="relative w-full max-w-full">
+          <div className="relative">
             <div className="relative h-[50vw] min-h-[220px] max-h-[350px] sm:h-[400px] md:h-[600px] bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-t from-pink-100/50 to-transparent"></div>
               <Image
                 src={"/images/device-usage.png"}
                 alt="RF/LED устройство для омоложения"
                 fill
-                className="object-contain p-2 sm:p-8"
+                className="object-contain p-4 sm:p-8"
                 quality={100}
                 priority
               />
@@ -135,7 +135,7 @@ export function Hero() {
             {/* Benefits */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               {benefits.map((benefit, index) => (
-                <div key={index} className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-white rounded-lg shadow-sm w-full max-w-full">
+                <div key={index} className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-white rounded-lg shadow-sm">
                   <div className="p-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg text-white">
                     <benefit.icon className="h-5 w-5" />
                   </div>
@@ -165,7 +165,7 @@ export function Hero() {
           </div>
 
           {/* Right Content - Device Image */}
-          <div className="relative w-full max-w-full">
+          <div className="relative">
             <div className="relative h-[50vw] min-h-[220px] max-h-[350px] sm:h-[400px] md:h-[600px] bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-t from-pink-100/50 to-transparent"></div>
               <Image

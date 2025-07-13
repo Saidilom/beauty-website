@@ -77,7 +77,7 @@ export function FAQ() {
             return (
               <Card
                 key={index}
-                className="overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer w-full max-w-full"
+                className="overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer"
                 onClick={() => toggleItem(index)}
               >
                 <CardContent className="p-0">
@@ -103,7 +103,7 @@ export function FAQ() {
           })}
         </div>
 
-        <Card className="mt-8 sm:mt-12 p-4 sm:p-8 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-center w-full max-w-full">
+        <Card className="mt-8 sm:mt-12 p-4 sm:p-8 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-center">
           <h3 className="text-lg sm:text-2xl font-bold mb-2 sm:mb-4">Остались вопросы?</h3>
           <p className="text-base sm:text-lg mb-4 sm:mb-6 opacity-90">Свяжитесь с нами для персональной консультации</p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">

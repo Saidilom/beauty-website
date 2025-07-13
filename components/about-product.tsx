@@ -62,8 +62,8 @@ export function AboutProduct() {
   ]
 
   if (loading) return (
-    <section id="about-product" className="animate-fade-in py-10 sm:py-20 px-2 sm:px-4 bg-white w-full max-w-full">
-      <div className="max-w-7xl mx-auto w-full max-w-full">
+    <section id="about-product" className="animate-fade-in py-10 sm:py-20 px-2 sm:px-4 bg-white">
+      <div className="max-w-7xl mx-auto">
         <div className="text-center mb-8 sm:mb-16">
           <Badge className="mb-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-2 text-base sm:text-lg">
             {"Главный продукт"}
@@ -75,26 +75,26 @@ export function AboutProduct() {
             {"Многофункциональный аппарат для профессионального ухода за кожей в домашних условиях. 5 технологий в одном устройстве."}
           </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-16 items-center mb-8 sm:mb-20 w-full max-w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16 items-center mb-10 sm:mb-20">
           {/* Device Info Image */}
-          <Card className="overflow-hidden shadow-2xl w-full max-w-full">
+          <Card className="overflow-hidden shadow-2xl">
             <CardContent className="p-0">
-              <div className="relative h-[50vw] min-h-[220px] max-h-[350px] sm:h-[400px] md:h-[600px] w-full max-w-full">
+              <div className="relative h-[50vw] min-h-[220px] max-h-[350px] sm:h-[400px] md:h-[600px]">
                 <Image
                   src={"/images/device-info.png"}
                   alt="Информация об RF/LED устройстве"
                   fill
-                  className="object-contain p-2 sm:p-8"
+                  className="object-contain p-4 sm:p-8"
                   quality={100}
                 />
               </div>
             </CardContent>
           </Card>
           {/* Features */}
-          <div className="space-y-4 sm:space-y-8 w-full max-w-full">
+          <div className="space-y-6 sm:space-y-8">
             <div>
               <h3 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-8 text-gray-800">5 функций в одном устройстве</h3>
-              <div className="grid gap-3 sm:gap-6">
+              <div className="grid gap-4 sm:gap-6">
                 {[
                   { icon: Zap, title: "RF технология", description: "Радиочастотный лифтинг для подтяжки кожи без операций" },
                   { icon: Star, title: "LED терапия", description: "Светодиодная терапия для стимуляции регенерации клеток" },
@@ -105,9 +105,9 @@ export function AboutProduct() {
                 ].map((feature, index) => (
                   <Card
                     key={index}
-                    className="p-3 sm:p-6 hover:shadow-lg transition-all duration-300 border-l-4 border-l-purple-500 w-full max-w-full"
+                    className="p-4 sm:p-6 hover:shadow-lg transition-all duration-300 border-l-4 border-l-purple-500"
                   >
-                    <div className="flex items-start gap-2 sm:gap-4">
+                    <div className="flex items-start gap-3 sm:gap-4">
                       <div className="p-2 sm:p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg text-white">
                         <feature.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                       </div>
@@ -143,7 +143,7 @@ export function AboutProduct() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16 items-center mb-10 sm:mb-20">
           {/* Device Info Image */}
-          <Card className="overflow-hidden shadow-2xl w-full max-w-full">
+          <Card className="overflow-hidden shadow-2xl">
             <CardContent className="p-0">
               <div className="relative h-[50vw] min-h-[220px] max-h-[350px] sm:h-[400px] md:h-[600px]">
                 <Image
@@ -194,7 +194,7 @@ export function AboutProduct() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
             {results.map((result, index) => (
-              <div key={index} className="flex items-center gap-2 sm:gap-3 p-2 sm:p-4 bg-white rounded-lg shadow-sm w-full max-w-full">
+              <div key={index} className="flex items-center gap-2 sm:gap-3 p-2 sm:p-4 bg-white rounded-lg shadow-sm">
                 <CheckCircle className="h-5 w-5 sm:h-6 sm:w-6 text-green-500 flex-shrink-0" />
                 <span className="text-gray-700 font-medium text-xs sm:text-base">{result}</span>
               </div>
