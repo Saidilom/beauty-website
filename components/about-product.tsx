@@ -12,6 +12,7 @@ export function AboutProduct() {
   const [loading, setLoading] = useState(true)
   const [isMuted, setIsMuted] = useState(true)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
     getSiteContent().then((data) => {
@@ -86,31 +87,53 @@ export function AboutProduct() {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16 items-center mb-10 sm:mb-20">
           {/* Device Info Video */}
-          <div className="relative w-full max-w-[98vw] aspect-[9/16] sm:h-[700px] md:h-[900px] mx-auto rounded-[32px] sm:rounded-3xl overflow-hidden border-2 border-white shadow-2xl">
-            <video
-              ref={videoRef}
-              src="/images/instruction.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              className="absolute inset-0 w-full h-full object-contain sm:object-cover"
-              controls={false}
-              key="/images/instruction.mp4"
-            />
+          <div className="relative w-full max-w-[98vw] aspect-[9/16] sm:h-[700px] md:h-[900px] mx-auto rounded-[32px] sm:rounded-3xl overflow-hidden bg-white shadow-2xl">
+            {!showVideo ? (
+              <button
+                className="w-full h-full flex items-center justify-center relative"
+                onClick={() => setShowVideo(true)}
+                aria-label="Смотреть видео"
+              >
+                <img
+                  src="/images/device-info.png"
+                  alt="Превью видео"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  draggable={false}
+                />
+                <span className="relative z-10 flex items-center justify-center w-14 h-14 bg-white/90 rounded-full shadow-md border border-gray-300">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <polygon points="8,6 22,14 8,22" fill="#222" />
+                  </svg>
+                </span>
+              </button>
+            ) : (
+              <video
+                ref={videoRef}
+                src="/images/instruction.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
+                className="absolute inset-0 w-full h-full object-contain sm:object-cover"
+                controls={false}
+                key="/images/instruction.mp4"
+              />
+            )}
             {/* Sound Control Button */}
-            <button
-              onClick={toggleMute}
-              className="absolute top-4 right-4 z-30 bg-white/80 hover:bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg transition-all duration-200"
-              aria-label={isMuted ? "Включить звук" : "Выключить звук"}
-            >
-              {isMuted ? (
-                <VolumeX className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
-              ) : (
-                <Volume2 className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
-              )}
-            </button>
+            {showVideo && (
+              <button
+                onClick={toggleMute}
+                className="absolute top-4 right-4 z-30 bg-white/80 hover:bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg transition-all duration-200"
+                aria-label={isMuted ? "Включить звук" : "Выключить звук"}
+              >
+                {isMuted ? (
+                  <VolumeX className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
+                ) : (
+                  <Volume2 className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
+                )}
+              </button>
+            )}
           </div>
           {/* Features */}
           <div className="space-y-6 sm:space-y-8">
@@ -165,31 +188,53 @@ export function AboutProduct() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16 items-center mb-10 sm:mb-20">
           {/* Device Info Video */}
-          <div className="relative w-full max-w-[98vw] aspect-[9/16] sm:h-[700px] md:h-[900px] mx-auto rounded-[32px] sm:rounded-3xl overflow-hidden border-2 border-white shadow-2xl">
-            <video
-              ref={videoRef}
-              src={content?.video || "/images/instruction.mp4"}
-              autoPlay
-              muted={true}
-              loop
-              playsInline
-              preload="auto"
-              className="absolute inset-0 w-full h-full object-contain sm:object-cover"
-              controls={false}
-              key={content?.video || "/images/instruction.mp4"}
-            />
+          <div className="relative w-full max-w-[98vw] aspect-[9/16] sm:h-[700px] md:h-[900px] mx-auto rounded-[32px] sm:rounded-3xl overflow-hidden bg-white shadow-2xl">
+            {!showVideo ? (
+              <button
+                className="w-full h-full flex items-center justify-center relative"
+                onClick={() => setShowVideo(true)}
+                aria-label="Смотреть видео"
+              >
+                <img
+                  src="/images/device-info.png"
+                  alt="Превью видео"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  draggable={false}
+                />
+                <span className="relative z-10 flex items-center justify-center w-14 h-14 bg-white/90 rounded-full shadow-md border border-gray-300">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <polygon points="8,6 22,14 8,22" fill="#222" />
+                  </svg>
+                </span>
+              </button>
+            ) : (
+              <video
+                ref={videoRef}
+                src={content?.video || "/images/instruction.mp4"}
+                autoPlay
+                muted={true}
+                loop
+                playsInline
+                preload="auto"
+                className="absolute inset-0 w-full h-full object-contain sm:object-cover"
+                controls={false}
+                key={content?.video || "/images/instruction.mp4"}
+              />
+            )}
             {/* Sound Control Button */}
-            <button
-              onClick={toggleMute}
-              className="absolute top-4 right-4 z-30 bg-white/80 hover:bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg transition-all duration-200"
-              aria-label={isMuted ? "Включить звук" : "Выключить звук"}
-            >
-              {isMuted ? (
-                <VolumeX className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
-              ) : (
-                <Volume2 className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
-              )}
-            </button>
+            {showVideo && (
+              <button
+                onClick={toggleMute}
+                className="absolute top-4 right-4 z-30 bg-white/80 hover:bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg transition-all duration-200"
+                aria-label={isMuted ? "Включить звук" : "Выключить звук"}
+              >
+                {isMuted ? (
+                  <VolumeX className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
+                ) : (
+                  <Volume2 className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
+                )}
+              </button>
+            )}
           </div>
 
           {/* Features */}
@@ -236,6 +281,21 @@ export function AboutProduct() {
             ))}
           </div>
         </Card>
+
+        {/* Галерея фото из public/gur */}
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {["IntelliDermSolutionsRFLEDMultifunctionDevice-Ecard.jpg", "IntelliDermSolutionsRFLEDMultifunctionDevice-Ecard2.jpg", "IntelliDermSolutionsRFLEDMultifunctionDevice-Ecard4.jpg", "7_(1)(3).jpg", "8_(1).jpg", "10_(1)(1).jpg"].map((img, i) => (
+            <div key={img} className="w-full h-auto bg-white rounded-2xl shadow overflow-hidden flex items-center justify-center">
+              <img
+                src={`/gur/${img}`}
+                alt={`Фото ${i+1}`}
+                className="w-full h-full object-cover rounded-2xl"
+                style={{ aspectRatio: '3/4', maxHeight: 420 }}
+                loading="lazy"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )
