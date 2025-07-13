@@ -792,19 +792,19 @@ export function SimpleAdmin() {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-4">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center h-auto sm:h-16 gap-2 sm:gap-0 py-2 sm:py-0">
+            <div className="flex items-center gap-2 sm:gap-4">
               <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                 <BarChart3 className="h-5 w-5 text-white" />
               </div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                 Админ панель Beauty Store
               </h1>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <Badge className="bg-green-100 text-green-800">Онлайн</Badge>
-              <span className="text-sm text-gray-600">{user?.email}</span>
+              <span className="text-xs sm:text-sm text-gray-600">{user?.email}</span>
               <Button
                 variant="outline"
                 size="sm"
@@ -818,16 +818,16 @@ export function SimpleAdmin() {
           </div>
         </div>
       </header>
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex gap-8">
+      <div className="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8 py-4 sm:py-8 flex flex-col sm:flex-row gap-4 sm:gap-8 w-full">
         {/* Sidebar */}
-        <div className="w-64 flex-shrink-0">
-          <Card className="p-4">
-            <nav className="space-y-2">
+        <div className="w-full sm:w-64 flex-shrink-0 mb-4 sm:mb-0">
+          <Card className="p-2 sm:p-4 w-full">
+            <nav className="space-y-1 sm:space-y-2">
               {sections.map((section) => (
                 <button
                   key={section.id}
                   onClick={() => setActiveSection(section.id as any)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all duration-200 ${
+                  className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-4 py-2 sm:py-3 rounded-xl text-left transition-all duration-200 text-xs sm:text-base ${
                     activeSection === section.id
                       ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg transform scale-105"
                       : "text-gray-700 hover:bg-gray-100 hover:scale-102"
@@ -841,11 +841,13 @@ export function SimpleAdmin() {
           </Card>
         </div>
         {/* Main Content */}
-        <div className="flex-1">
+        <div className="flex-1 w-full">
           {message && (
-            <div className={`mb-4 p-2 rounded text-center ${message === "Сохранено!" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>{message}</div>
+            <div className={`mb-2 sm:mb-4 p-2 rounded text-center text-xs sm:text-base ${message === "Сохранено!" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>{message}</div>
           )}
-          {renderSectionForm()}
+          <div className="overflow-x-auto w-full">
+            {renderSectionForm()}
+          </div>
         </div>
       </div>
     </div>

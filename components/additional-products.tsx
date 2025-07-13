@@ -108,38 +108,38 @@ export function AdditionalProducts() {
             <Card key={product.id} className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden bg-white w-full max-w-full">
               <CardHeader className="pb-2 sm:pb-4">
                 <div className="relative h-[40vw] min-h-[140px] max-h-[220px] sm:h-64 mb-2 sm:mb-4 bg-white rounded-lg overflow-hidden shadow-inner w-full max-w-full">
-                  <Image
-                    src={product.image || "/placeholder.svg"}
+                    <Image
+                      src={product.image || "/placeholder.svg"}
                     alt={product.shortName || "Продукт"}
-                    fill
+                      fill
                     className="object-contain p-2 sm:p-4 group-hover:scale-105 sm:group-hover:scale-110 transition-transform duration-500"
-                    quality={100}
-                  />
-                </div>
+                      quality={100}
+                    />
+                    </div>
                 <div className="flex items-center justify-between mb-1 sm:mb-2">
                   <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs sm:text-base">
-                    {product.category}
-                  </Badge>
+                      {product.category}
+                    </Badge>
                   <span className="text-base sm:text-lg font-bold text-purple-600">{product.price}</span>
-                </div>
+                  </div>
                 <CardTitle className="text-base sm:text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors">
-                  {product.shortName}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
+                    {product.shortName}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
                 <p className="text-gray-600 mb-2 sm:mb-4 leading-relaxed text-sm sm:text-base">{product.description}</p>
                 <div className="space-y-1 sm:space-y-2">
                   <h4 className="font-semibold text-gray-800 text-xs sm:text-sm">Преимущества:</h4>
-                  <div className="flex flex-wrap gap-1">
+                    <div className="flex flex-wrap gap-1">
                     {(product.benefits || []).map((benefit, idx) => (
                       <Badge key={idx} variant="outline" className="text-[10px] sm:text-xs">
-                        {benefit}
-                      </Badge>
-                    ))}
+                          {benefit}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
           ))}
         </div>
       </div>

@@ -431,11 +431,11 @@ export function ProductsManager() {
         </CardHeader>
 
         <CardContent>
-          <div className="grid gap-4">
+          <div className="grid grid-cols-1 gap-3 sm:gap-4">
             {products.map((product) => (
-              <Card key={product.id} className="p-4">
-                <div className="flex items-start gap-4">
-                  <div className="relative w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
+              <Card key={product.id} className="p-3 sm:p-4 w-full">
+                <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 w-full">
+                  <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                     {product.image ? (
                       <Image
                         src={product.image || "/placeholder.svg"}
@@ -450,42 +450,42 @@ export function ProductsManager() {
                     )}
                   </div>
 
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-semibold">{product.shortName}</h3>
+                  <div className="flex-1 w-full">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between w-full">
+                      <div className="w-full">
+                        <div className="flex flex-wrap items-center gap-1 sm:gap-2 mb-1">
+                          <h3 className="font-semibold text-sm sm:text-base">{product.shortName}</h3>
                           {product.isMainProduct && (
-                            <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                            <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs sm:text-sm">
                               <Star className="h-3 w-3 mr-1" />
                               Основной
                             </Badge>
                           )}
-                          <Badge variant="outline">{product.category}</Badge>
+                          <Badge variant="outline" className="text-xs sm:text-sm">{product.category}</Badge>
                         </div>
-                        <p className="text-sm text-gray-600 mb-2">{product.description}</p>
-                        <div className="flex items-center gap-4 text-sm">
+                        <p className="text-xs sm:text-sm text-gray-600 mb-1 sm:mb-2 break-words max-w-full overflow-x-auto">{product.description}</p>
+                        <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm">
                           <span className="font-medium text-purple-600">{product.price}</span>
                           <span className="text-gray-500">Порядок: {product.order}</span>
                         </div>
-                        <div className="flex flex-wrap gap-1 mt-2">
+                        <div className="flex flex-wrap gap-1 mt-1 sm:mt-2 overflow-x-auto">
                           {product.benefits.map((benefit, index) => (
-                            <Badge key={index} variant="secondary" className="text-xs">
+                            <Badge key={index} variant="secondary" className="text-[10px] sm:text-xs">
                               {benefit}
                             </Badge>
                           ))}
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-2">
-                        <Button variant="outline" size="sm" onClick={() => openEditDialog(product)}>
+                      <div className="flex items-center gap-1 sm:gap-2 mt-2 sm:mt-0">
+                        <Button variant="outline" size="sm" onClick={() => openEditDialog(product)} className="px-2 py-1">
                           <Edit className="h-4 w-4" />
                         </Button>
                         <Button
                           variant="outline"
                           size="sm"
                           onClick={() => handleDelete(product.id)}
-                          className="text-red-600 hover:text-red-700"
+                          className="text-red-600 hover:text-red-700 px-2 py-1"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

@@ -62,8 +62,67 @@ export function AboutProduct() {
   ]
 
   if (loading) return (
-    <section className="min-h-[400px] flex items-center justify-center">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
+    <section id="about-product" className="animate-fade-in py-10 sm:py-20 px-2 sm:px-4 bg-white w-full max-w-full">
+      <div className="max-w-7xl mx-auto w-full max-w-full">
+        <div className="text-center mb-8 sm:mb-16">
+          <Badge className="mb-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 sm:px-6 py-2 text-base sm:text-lg">
+            {"Главный продукт"}
+          </Badge>
+          <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            {"RF/LED устройство IntelliDerm Solutions®"}
+          </h2>
+          <p className="text-base sm:text-xl text-gray-600 max-w-3xl mx-auto">
+            {"Многофункциональный аппарат для профессионального ухода за кожей в домашних условиях. 5 технологий в одном устройстве."}
+          </p>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-16 items-center mb-8 sm:mb-20 w-full max-w-full">
+          {/* Device Info Image */}
+          <Card className="overflow-hidden shadow-2xl w-full max-w-full">
+            <CardContent className="p-0">
+              <div className="relative h-[50vw] min-h-[220px] max-h-[350px] sm:h-[400px] md:h-[600px] w-full max-w-full">
+                <Image
+                  src={"/images/device-info.png"}
+                  alt="Информация об RF/LED устройстве"
+                  fill
+                  className="object-contain p-2 sm:p-8"
+                  quality={100}
+                />
+              </div>
+            </CardContent>
+          </Card>
+          {/* Features */}
+          <div className="space-y-4 sm:space-y-8 w-full max-w-full">
+            <div>
+              <h3 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-8 text-gray-800">5 функций в одном устройстве</h3>
+              <div className="grid gap-3 sm:gap-6">
+                {[
+                  { icon: Zap, title: "RF технология", description: "Радиочастотный лифтинг для подтяжки кожи без операций" },
+                  { icon: Star, title: "LED терапия", description: "Светодиодная терапия для стимуляции регенерации клеток" },
+                  { icon: Shield, title: "ЭМС стимуляция", description: "Электромиостимуляция для тонуса лицевых мышц" },
+                  { icon: Heart, title: "Ионофорез", description: "Глубокое проникновение активных компонентов" },
+                  { icon: Clock, title: "Охлаждение", description: "Успокаивающий эффект после процедур" },
+                  { icon: CheckCircle, title: "Очищение", description: "Глубокая очистка пор от загрязнений" },
+                ].map((feature, index) => (
+                  <Card
+                    key={index}
+                    className="p-3 sm:p-6 hover:shadow-lg transition-all duration-300 border-l-4 border-l-purple-500 w-full max-w-full"
+                  >
+                    <div className="flex items-start gap-2 sm:gap-4">
+                      <div className="p-2 sm:p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg text-white">
+                        <feature.icon className="h-5 w-5 sm:h-6 sm:w-6" />
+                      </div>
+                      <div>
+                        <h4 className="text-base sm:text-xl font-semibold mb-1 sm:mb-2 text-gray-800">{feature.title}</h4>
+                        <p className="text-gray-600 text-sm sm:text-base">{feature.description}</p>
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 
