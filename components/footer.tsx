@@ -15,7 +15,7 @@ export function Footer() {
           <div>
             <h4 className="text-base sm:text-lg font-semibold mb-2 sm:mb-4">Контакты</h4>
             <div className="space-y-1 sm:space-y-2 text-gray-400 text-sm sm:text-base">
-              <p>Телефон: +7 (989) 802-43-52</p>
+              {/* <p>Телефон: +7 (989) 802-43-52</p> */}
               <p>WhatsApp: +7 (989) 802-43-52</p>
               <p>Telegram: +7 (989) 802-43-52</p>
               <p>Время работы: 9:00 - 21:00 (МСК)</p>

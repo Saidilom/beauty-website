@@ -13,10 +13,7 @@ export function ContactSection() {
 
         <Card className="bg-white/10 backdrop-blur-sm border-white/20 mb-12">
           <CardContent className="p-8">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <Phone className="h-8 w-8" />
-              <span className="text-2xl font-bold">+7 (989) 802-43-52</span>
-            </div>
+            {/* Удалён блок с номером телефона */}
 
             <div className="grid md:grid-cols-2 gap-6">
               <Button

@@ -29,10 +29,7 @@ export function ContactOrder() {
             <CardContent className="p-0">
               <h3 className="text-lg sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-8 text-center">Способы связи</h3>
 
-              <div className="flex items-center justify-center gap-2 sm:gap-4 mb-4 sm:mb-8 text-gray-800">
-                <Phone className="h-6 w-6 sm:h-8 sm:w-8" />
-                <span className="text-lg sm:text-2xl font-bold">+7 (989) 802-43-52</span>
-              </div>
+              {/* Удалён блок с номером телефона */}
 
               <div className="space-y-2 sm:space-y-4">
                 <Button

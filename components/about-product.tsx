@@ -286,9 +286,11 @@ export function AboutProduct() {
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {["IntelliDermSolutionsRFLEDMultifunctionDevice-Ecard.jpg", "IntelliDermSolutionsRFLEDMultifunctionDevice-Ecard2.jpg", "IntelliDermSolutionsRFLEDMultifunctionDevice-Ecard4.jpg", "7_(1)(3).jpg", "8_(1).jpg", "10_(1)(1).jpg"].map((img, i) => (
             <div key={img} className="w-full h-auto bg-white rounded-2xl shadow overflow-hidden flex items-center justify-center">
-              <img
+              <Image
                 src={`/gur/${img}`}
                 alt={`Фото ${i+1}`}
+                width={400}
+                height={533}
                 className="w-full h-full object-cover rounded-2xl"
                 style={{ aspectRatio: '3/4', maxHeight: 420 }}
                 loading="lazy"
