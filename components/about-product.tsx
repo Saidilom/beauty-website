@@ -91,12 +91,13 @@ export function AboutProduct() {
               ref={videoRef}
               src="/images/instruction.mp4"
               autoPlay
-              muted={true}
+              muted
               loop
               playsInline
               preload="auto"
               className="absolute inset-0 w-full h-full object-contain sm:object-cover"
               controls={false}
+              key="/images/instruction.mp4"
             />
             {/* Sound Control Button */}
             <button
@@ -175,6 +176,7 @@ export function AboutProduct() {
               preload="auto"
               className="absolute inset-0 w-full h-full object-contain sm:object-cover"
               controls={false}
+              key={content?.video || "/images/instruction.mp4"}
             />
             {/* Sound Control Button */}
             <button

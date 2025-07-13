@@ -100,12 +100,13 @@ export function Hero() {
                 ref={videoRef}
                 src="/images/recorder1.mp4"
                 autoPlay
-                muted={true}
+                muted
                 loop
                 playsInline
                 preload="auto"
                 className="absolute inset-0 w-full h-full object-cover"
                 controls={false}
+                key="/images/recorder1.mp4"
               />
               {/* Sound Control Button */}
               <button
@@ -196,12 +197,13 @@ export function Hero() {
                 ref={videoRef}
                 src={content?.video || "/images/recorder1.mp4"}
                 autoPlay
-                muted={true}
+                muted
                 loop
                 playsInline
                 preload="auto"
                 className="absolute inset-0 w-full h-full object-cover"
                 controls={false}
+                key={content?.video || "/images/recorder1.mp4"}
               />
               {/* Sound Control Button */}
               <button
