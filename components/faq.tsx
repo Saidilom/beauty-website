@@ -56,33 +56,33 @@ export function FAQ() {
   }
 
   return (
-    <section id="faq" className="animate-fade-in py-20 px-4 bg-gradient-to-br from-purple-50 to-pink-50">
+    <section id="faq" className="animate-fade-in py-10 sm:py-20 px-2 sm:px-4 bg-gradient-to-br from-purple-50 to-pink-50">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-16">
-          <Badge className="mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-2 text-lg">
+        <div className="text-center mb-10 sm:mb-16">
+          <Badge className="mb-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 sm:px-6 py-2 text-base sm:text-lg">
             Частые вопросы
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Ответы на ваши вопросы
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base sm:text-xl text-gray-600 max-w-3xl mx-auto">
             Собрали самые популярные вопросы о RF/LED устройстве и косметике Mary Kay
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {faqData.map((item, index) => {
             const isOpen = openItems.includes(index)
 
             return (
               <Card
                 key={index}
-                className="overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer"
+                className="overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer w-full max-w-full"
                 onClick={() => toggleItem(index)}
               >
                 <CardContent className="p-0">
-                  <div className="p-6 flex items-center justify-between">
-                    <h3 className="text-lg font-semibold text-gray-800 pr-4">{item.question}</h3>
+                  <div className="p-4 sm:p-6 flex items-center justify-between">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-800 pr-2 sm:pr-4">{item.question}</h3>
                     <div className="flex-shrink-0">
                       {isOpen ? (
                         <ChevronUp className="h-5 w-5 text-purple-600" />
@@ -93,8 +93,8 @@ export function FAQ() {
                   </div>
 
                   {isOpen && (
-                    <div className="px-6 pb-6 border-t bg-gray-50">
-                      <p className="text-gray-600 leading-relaxed pt-4">{item.answer}</p>
+                    <div className="px-4 sm:px-6 pb-4 sm:pb-6 border-t bg-gray-50">
+                      <p className="text-gray-600 leading-relaxed pt-2 sm:pt-4 text-sm sm:text-base">{item.answer}</p>
                     </div>
                   )}
                 </CardContent>
@@ -103,18 +103,18 @@ export function FAQ() {
           })}
         </div>
 
-        <Card className="mt-12 p-8 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-center">
-          <h3 className="text-2xl font-bold mb-4">Остались вопросы?</h3>
-          <p className="text-lg mb-6 opacity-90">Свяжитесь с нами для персональной консультации</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <Card className="mt-8 sm:mt-12 p-4 sm:p-8 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-center w-full max-w-full">
+          <h3 className="text-lg sm:text-2xl font-bold mb-2 sm:mb-4">Остались вопросы?</h3>
+          <p className="text-base sm:text-lg mb-4 sm:mb-6 opacity-90">Свяжитесь с нами для персональной консультации</p>
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <button
-              className="bg-white text-purple-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-semibold transition-colors"
+              className="bg-white text-purple-600 hover:bg-gray-100 px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-colors text-base sm:text-lg"
               onClick={() => window.open("https://wa.me/79898024352", "_blank")}
             >
               WhatsApp консультация
             </button>
             <button
-              className="bg-white text-purple-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-semibold transition-colors"
+              className="bg-white text-purple-600 hover:bg-gray-100 px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold transition-colors text-base sm:text-lg"
               onClick={() => window.open("https://t.me/79898024352", "_blank")}
             >
               Telegram чат

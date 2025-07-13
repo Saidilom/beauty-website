@@ -90,49 +90,49 @@ export function AdditionalProducts() {
     : defaultProducts
 
   return (
-    <section id="products" className="animate-fade-in py-20 px-4 bg-gradient-to-br from-pink-50 to-purple-50">
+    <section id="products" className="animate-fade-in py-10 sm:py-20 px-2 sm:px-4 bg-gradient-to-br from-pink-50 to-purple-50">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <Badge className="mb-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-6 py-2 text-lg">
+        <div className="text-center mb-10 sm:mb-16">
+          <Badge className="mb-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-4 sm:px-6 py-2 text-base sm:text-lg">
             Сопутствующие продукты
           </Badge>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+          <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
             {sectionTitle}
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-base sm:text-xl text-gray-600 max-w-3xl mx-auto">
             {sectionDescription}
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 mb-8 sm:mb-12">
           {displayProducts.map((product) => (
-            <Card key={product.id} className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden bg-white">
-              <CardHeader className="pb-4">
-                <div className="relative h-64 mb-4 bg-white rounded-lg overflow-hidden shadow-inner">
+            <Card key={product.id} className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden bg-white w-full max-w-full">
+              <CardHeader className="pb-2 sm:pb-4">
+                <div className="relative h-[40vw] min-h-[140px] max-h-[220px] sm:h-64 mb-2 sm:mb-4 bg-white rounded-lg overflow-hidden shadow-inner w-full max-w-full">
                   <Image
                     src={product.image || "/placeholder.svg"}
                     alt={product.shortName || "Продукт"}
                     fill
-                    className="object-contain p-4 group-hover:scale-110 transition-transform duration-500"
+                    className="object-contain p-2 sm:p-4 group-hover:scale-105 sm:group-hover:scale-110 transition-transform duration-500"
                     quality={100}
                   />
                 </div>
-                <div className="flex items-center justify-between mb-2">
-                  <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+                <div className="flex items-center justify-between mb-1 sm:mb-2">
+                  <Badge className="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs sm:text-base">
                     {product.category}
                   </Badge>
-                  <span className="text-lg font-bold text-purple-600">{product.price}</span>
+                  <span className="text-base sm:text-lg font-bold text-purple-600">{product.price}</span>
                 </div>
-                <CardTitle className="text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors">
+                <CardTitle className="text-base sm:text-lg font-bold text-gray-800 group-hover:text-purple-600 transition-colors">
                   {product.shortName}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 mb-4 leading-relaxed">{product.description}</p>
-                <div className="space-y-2">
-                  <h4 className="font-semibold text-gray-800 text-sm">Преимущества:</h4>
+                <p className="text-gray-600 mb-2 sm:mb-4 leading-relaxed text-sm sm:text-base">{product.description}</p>
+                <div className="space-y-1 sm:space-y-2">
+                  <h4 className="font-semibold text-gray-800 text-xs sm:text-sm">Преимущества:</h4>
                   <div className="flex flex-wrap gap-1">
                     {(product.benefits || []).map((benefit, idx) => (
-                      <Badge key={idx} variant="outline" className="text-xs">
+                      <Badge key={idx} variant="outline" className="text-[10px] sm:text-xs">
                         {benefit}
                       </Badge>
                     ))}

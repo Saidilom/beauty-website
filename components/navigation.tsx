@@ -46,23 +46,23 @@ export function Navigation() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4">
+        <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
-          <div className="flex items-center gap-2">
-            <ShoppingBag className="h-8 w-8 text-pink-600" />
-            <span className="text-xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+          <div className="flex items-center gap-1 sm:gap-2">
+            <ShoppingBag className="h-7 w-7 sm:h-8 sm:w-8 text-pink-600" />
+            <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
               Beauty Store
             </span>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-4 sm:space-x-8">
             {navItems.map((item) => (
               <button
                 key={item.name}
                 onClick={() => scrollToSection(item.href)}
-                className={`text-sm font-medium transition-colors hover:text-pink-600 ${
+                className={`text-xs sm:text-sm font-medium transition-colors hover:text-pink-600 ${
                   activeSection === item.href.substring(1)
                     ? "text-pink-600 border-b-2 border-pink-600"
                     : "text-gray-700"
@@ -84,12 +84,12 @@ export function Navigation() {
         {/* Mobile Navigation */}
         {isOpen && (
           <div className="md:hidden bg-white border-t">
-            <div className="px-2 pt-2 pb-3 space-y-1">
+            <div className="px-1 sm:px-2 pt-2 pb-3 space-y-1">
               {navItems.map((item) => (
                 <button
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
-                  className={`block w-full text-left px-3 py-2 text-base font-medium transition-colors hover:text-pink-600 hover:bg-pink-50 rounded-md ${
+                  className={`block w-full text-left px-2 sm:px-3 py-2 text-base font-medium transition-colors hover:text-pink-600 hover:bg-pink-50 rounded-md ${
                     activeSection === item.href.substring(1) ? "text-pink-600 bg-pink-50" : "text-gray-700"
                   }`}
                 >
