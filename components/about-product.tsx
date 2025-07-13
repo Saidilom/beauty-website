@@ -3,13 +3,15 @@
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { CheckCircle, Zap, Shield, Clock, Star, Heart } from "lucide-react"
-import { useEffect, useState } from "react"
+import { CheckCircle, Zap, Shield, Clock, Star, Heart, Volume2, VolumeX } from "lucide-react"
+import { useEffect, useState, useRef } from "react"
 import { getSiteContent } from "@/lib/firebase-admin-service"
 
 export function AboutProduct() {
   const [content, setContent] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [isMuted, setIsMuted] = useState(true)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     getSiteContent().then((data) => {
@@ -18,6 +20,13 @@ export function AboutProduct() {
       setLoading(false)
     })
   }, [])
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted
+      setIsMuted(!isMuted)
+    }
+  }
 
   const features = [
     {
@@ -76,20 +85,32 @@ export function AboutProduct() {
           </p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16 items-center mb-10 sm:mb-20">
-          {/* Device Info Image */}
-          <Card className="overflow-hidden shadow-2xl">
-            <CardContent className="p-0">
-              <div className="relative h-[50vw] min-h-[220px] max-h-[350px] sm:h-[400px] md:h-[600px]">
-                <Image
-                  src={"/images/device-info.png"}
-                  alt="Информация об RF/LED устройстве"
-                  fill
-                  className="object-contain p-4 sm:p-8"
-                  quality={100}
-                />
-              </div>
-            </CardContent>
-          </Card>
+          {/* Device Info Video */}
+          <div className="relative w-full max-w-[98vw] aspect-[9/16] sm:h-[700px] md:h-[900px] mx-auto rounded-[32px] sm:rounded-3xl overflow-hidden border-2 border-white shadow-2xl">
+            <video
+              ref={videoRef}
+              src="/images/instruction.mp4"
+              autoPlay
+              muted={true}
+              loop
+              playsInline
+              preload="auto"
+              className="absolute inset-0 w-full h-full object-contain sm:object-cover"
+              controls={false}
+            />
+            {/* Sound Control Button */}
+            <button
+              onClick={toggleMute}
+              className="absolute top-4 right-4 z-30 bg-white/80 hover:bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg transition-all duration-200"
+              aria-label={isMuted ? "Включить звук" : "Выключить звук"}
+            >
+              {isMuted ? (
+                <VolumeX className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
+              ) : (
+                <Volume2 className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
+              )}
+            </button>
+          </div>
           {/* Features */}
           <div className="space-y-6 sm:space-y-8">
             <div>
@@ -142,20 +163,32 @@ export function AboutProduct() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-16 items-center mb-10 sm:mb-20">
-          {/* Device Info Image */}
-          <Card className="overflow-hidden shadow-2xl">
-            <CardContent className="p-0">
-              <div className="relative h-[50vw] min-h-[220px] max-h-[350px] sm:h-[400px] md:h-[600px]">
-                <Image
-                  src={content?.image || "/images/device-info.png"}
-                  alt="Информация об RF/LED устройстве"
-                  fill
-                  className="object-contain p-4 sm:p-8"
-                  quality={100}
-                />
-              </div>
-            </CardContent>
-          </Card>
+          {/* Device Info Video */}
+          <div className="relative w-full max-w-[98vw] aspect-[9/16] sm:h-[700px] md:h-[900px] mx-auto rounded-[32px] sm:rounded-3xl overflow-hidden border-2 border-white shadow-2xl">
+            <video
+              ref={videoRef}
+              src={content?.video || "/images/instruction.mp4"}
+              autoPlay
+              muted={true}
+              loop
+              playsInline
+              preload="auto"
+              className="absolute inset-0 w-full h-full object-contain sm:object-cover"
+              controls={false}
+            />
+            {/* Sound Control Button */}
+            <button
+              onClick={toggleMute}
+              className="absolute top-4 right-4 z-30 bg-white/80 hover:bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg transition-all duration-200"
+              aria-label={isMuted ? "Включить звук" : "Выключить звук"}
+            >
+              {isMuted ? (
+                <VolumeX className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
+              ) : (
+                <Volume2 className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
+              )}
+            </button>
+          </div>
 
           {/* Features */}
           <div className="space-y-6 sm:space-y-8">

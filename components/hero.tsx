@@ -3,13 +3,15 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Sparkles, Zap, Shield, Clock } from "lucide-react"
-import { useEffect, useState } from "react"
+import { Sparkles, Zap, Shield, Clock, Volume2, VolumeX } from "lucide-react"
+import { useEffect, useState, useRef } from "react"
 import { getSiteContent } from "@/lib/firebase-admin-service"
 
 export function Hero() {
   const [content, setContent] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [isMuted, setIsMuted] = useState(true)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     getSiteContent().then((data) => {
@@ -18,6 +20,13 @@ export function Hero() {
       setLoading(false)
     })
   }, [])
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted
+      setIsMuted(!isMuted)
+    }
+  }
 
   const benefits = content?.benefits && Array.isArray(content.benefits) && content.benefits.length > 0
     ? content.benefits.map((text: string, i: number) => ({ icon: [Sparkles, Zap, Shield, Clock][i % 4], text }))
@@ -33,7 +42,7 @@ export function Hero() {
       <div className="max-w-7xl mx-auto px-2 sm:px-4 py-10 sm:py-20">
         <div className="grid lg:grid-cols-2 gap-6 sm:gap-12 items-center">
           {/* Left Content */}
-          <div className="space-y-6 sm:space-y-8">
+          <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
             <div>
               <Badge className="mb-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 py-2 sm:px-4 sm:py-2">
                 {"Эксклюзивное предложение"}
@@ -46,7 +55,7 @@ export function Hero() {
                 <br />
                 <span className="text-gray-800">{"как в салоне"}</span>
               </h1>
-              <p className="text-base sm:text-xl text-gray-600 leading-relaxed">
+              <p className="text-base sm:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 {"RF/LED устройство IntelliDerm Solutions® + премиальная косметика Mary Kay. Полный комплекс для профессионального ухода за кожей."}
               </p>
             </div>
@@ -65,7 +74,7 @@ export function Hero() {
                 </div>
               ))}
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full justify-center lg:justify-start">
               <Button
                 size="lg"
                 className="w-full sm:w-auto bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
@@ -83,24 +92,39 @@ export function Hero() {
               </Button>
             </div>
           </div>
-          {/* Right Content - Device Image */}
+          {/* Right Content - Device Video */}
           <div className="relative">
             <div className="relative h-[50vw] min-h-[220px] max-h-[350px] sm:h-[400px] md:h-[600px] bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-t from-pink-100/50 to-transparent"></div>
-              <Image
-                src={"/images/device-usage.png"}
-                alt="RF/LED устройство для омоложения"
-                fill
-                className="object-contain p-4 sm:p-8"
-                quality={100}
-                priority
+              <div className="absolute inset-0 bg-gradient-to-t from-pink-100/50 to-transparent z-10"></div>
+              <video
+                ref={videoRef}
+                src="/images/recorder1.mp4"
+                autoPlay
+                muted={true}
+                loop
+                playsInline
+                preload="auto"
+                className="absolute inset-0 w-full h-full object-cover"
+                controls={false}
               />
+              {/* Sound Control Button */}
+              <button
+                onClick={toggleMute}
+                className="absolute top-4 right-4 z-30 bg-white/80 hover:bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg transition-all duration-200"
+                aria-label={isMuted ? "Включить звук" : "Выключить звук"}
+              >
+                {isMuted ? (
+                  <VolumeX className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
+                ) : (
+                  <Volume2 className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
+                )}
+              </button>
             </div>
             {/* Floating Elements - на мобильных скрываем */}
-            <div className="hidden sm:block absolute -top-4 -right-4 bg-white rounded-full p-2 sm:p-4 shadow-lg animate-bounce">
+            <div className="hidden sm:block absolute -top-4 -right-4 bg-white rounded-full p-2 sm:p-4 shadow-lg animate-bounce z-20">
               <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 text-pink-500" />
             </div>
-            <div className="hidden sm:block absolute -bottom-4 -left-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full p-2 sm:p-4 shadow-lg">
+            <div className="hidden sm:block absolute -bottom-4 -left-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full p-2 sm:p-4 shadow-lg z-20">
               <Zap className="h-6 w-6 sm:h-8 sm:w-8" />
             </div>
           </div>
@@ -114,7 +138,7 @@ export function Hero() {
       <div className="max-w-7xl mx-auto px-2 sm:px-4 py-10 sm:py-20">
         <div className="grid lg:grid-cols-2 gap-6 sm:gap-12 items-center">
           {/* Left Content */}
-          <div className="space-y-6 sm:space-y-8">
+          <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
             <div>
               <Badge className="mb-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 py-2 sm:px-4 sm:py-2">
                 {content?.badge || "Эксклюзивное предложение"}
@@ -127,7 +151,7 @@ export function Hero() {
                 <br />
                 <span className="text-gray-800">{content?.title?.split("\n")[2] || "как в салоне"}</span>
               </h1>
-              <p className="text-base sm:text-xl text-gray-600 leading-relaxed">
+              <p className="text-base sm:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 {content?.description || "RF/LED устройство IntelliDerm Solutions® + премиальная косметика Mary Kay. Полный комплекс для профессионального ухода за кожей."}
               </p>
             </div>
@@ -145,7 +169,7 @@ export function Hero() {
             </div>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full justify-center lg:justify-start">
               <Button
                 size="lg"
                 className="w-full sm:w-auto bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 text-white px-6 sm:px-8 py-3 sm:py-4 text-base sm:text-lg"
@@ -164,25 +188,40 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right Content - Device Image */}
+          {/* Right Content - Device Video */}
           <div className="relative">
             <div className="relative h-[50vw] min-h-[220px] max-h-[350px] sm:h-[400px] md:h-[600px] bg-gradient-to-br from-white to-gray-50 rounded-3xl shadow-2xl overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-t from-pink-100/50 to-transparent"></div>
-              <Image
-                src={content?.image || "/images/device-usage.png"}
-                alt="RF/LED устройство для омоложения"
-                fill
-                className="object-contain p-4 sm:p-8"
-                quality={100}
-                priority
+              <div className="absolute inset-0 bg-gradient-to-t from-pink-100/50 to-transparent z-10"></div>
+              <video
+                ref={videoRef}
+                src={content?.video || "/images/recorder1.mp4"}
+                autoPlay
+                muted={true}
+                loop
+                playsInline
+                preload="auto"
+                className="absolute inset-0 w-full h-full object-cover"
+                controls={false}
               />
+              {/* Sound Control Button */}
+              <button
+                onClick={toggleMute}
+                className="absolute top-4 right-4 z-30 bg-white/80 hover:bg-white/90 backdrop-blur-sm rounded-full p-2 sm:p-3 shadow-lg transition-all duration-200"
+                aria-label={isMuted ? "Включить звук" : "Выключить звук"}
+              >
+                {isMuted ? (
+                  <VolumeX className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
+                ) : (
+                  <Volume2 className="h-4 w-4 sm:h-5 sm:w-5 text-gray-700" />
+                )}
+              </button>
             </div>
 
             {/* Floating Elements */}
-            <div className="hidden sm:block absolute -top-4 -right-4 bg-white rounded-full p-2 sm:p-4 shadow-lg animate-bounce">
+            <div className="hidden sm:block absolute -top-4 -right-4 bg-white rounded-full p-2 sm:p-4 shadow-lg animate-bounce z-20">
               <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 text-pink-500" />
             </div>
-            <div className="hidden sm:block absolute -bottom-4 -left-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full p-2 sm:p-4 shadow-lg">
+            <div className="hidden sm:block absolute -bottom-4 -left-4 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full p-2 sm:p-4 shadow-lg z-20">
               <Zap className="h-6 w-6 sm:h-8 sm:w-8" />
             </div>
           </div>

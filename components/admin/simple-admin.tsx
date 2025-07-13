@@ -529,8 +529,8 @@ export function SimpleAdmin() {
                 {saving ? "Сохраняю..." : "Сохранить"}
               </Button>
             </div>
-          </Card>
-        )
+    </Card>
+  )
       case "products":
         return <ProductsManager />
       case "faq":
@@ -819,12 +819,12 @@ export function SimpleAdmin() {
         </div>
       </header>
       <div className="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8 py-4 sm:py-8 flex flex-col sm:flex-row gap-4 sm:gap-8 w-full">
-        {/* Sidebar */}
+          {/* Sidebar */}
         <div className="w-full sm:w-64 flex-shrink-0 mb-4 sm:mb-0">
           <Card className="p-2 sm:p-4 w-full">
             <nav className="space-y-1 sm:space-y-2">
               {sections.map((section) => (
-                <button
+                  <button
                   key={section.id}
                   onClick={() => setActiveSection(section.id as any)}
                   className={`w-full flex items-center gap-2 sm:gap-3 px-2 sm:px-4 py-2 sm:py-3 rounded-xl text-left transition-all duration-200 text-xs sm:text-base ${
@@ -835,12 +835,12 @@ export function SimpleAdmin() {
                 >
                   <section.icon className={`h-5 w-5 ${activeSection === section.id ? "text-white" : "text-purple-500"}`} />
                   <span className="font-medium">{section.name}</span>
-                </button>
-              ))}
-            </nav>
-          </Card>
-        </div>
-        {/* Main Content */}
+                  </button>
+                ))}
+              </nav>
+            </Card>
+          </div>
+          {/* Main Content */}
         <div className="flex-1 w-full">
           {message && (
             <div className={`mb-2 sm:mb-4 p-2 rounded text-center text-xs sm:text-base ${message === "Сохранено!" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>{message}</div>
