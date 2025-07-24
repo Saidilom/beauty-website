@@ -81,30 +81,25 @@ export function SimpleAdmin() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'content'>("content")
-  const [activeSection, setActiveSection] = useState<'hero' | 'about-product' | 'products' | 'faq' | 'order'>("hero")
+  const [activeSection, setActiveSection] = useState<'hero' | 'about-product' | 'products' | 'faq' | 'order' | 'price-bundle'>("hero")
   // Состояния для текста и фото
-  const [heroTitle, setHeroTitle] = useState("Омоложение в домашних условиях как в салоне")
-  const [heroDescription, setHeroDescription] = useState("RF/LED устройство IntelliDerm Solutions® + премиальная косметика Mary Kay")
-  const [aboutTitle, setAboutTitle] = useState("RF/LED устройство IntelliDerm Solutions®")
-  const [aboutDescription, setAboutDescription] = useState("Многофункциональный аппарат для профессионального ухода за кожей в домашних условиях")
+  const [heroBadge, setHeroBadge] = useState("");
+  const [heroTitle, setHeroTitle] = useState("");
+  const [heroDescription, setHeroDescription] = useState("");
+  const [heroButtonText, setHeroButtonText] = useState("");
+  const [heroSecondaryButtonText, setHeroSecondaryButtonText] = useState("");
+  const [heroBenefits, setHeroBenefits] = useState<string[]>([]);
+  const [aboutBadge, setAboutBadge] = useState("");
+  const [aboutTitle, setAboutTitle] = useState("");
+  const [aboutDescription, setAboutDescription] = useState("");
+  const [aboutFeatures, setAboutFeatures] = useState<{ icon: string; title: string; description: string }[]>([]);
+  const [aboutResultsTitle, setAboutResultsTitle] = useState("");
+  const [aboutResultsDescription, setAboutResultsDescription] = useState("");
+  const [aboutResults, setAboutResults] = useState<string[]>([]);
   const [heroImage, setHeroImage] = useState<string | null>(null)
   const [aboutImage, setAboutImage] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
-  const [heroBenefits, setHeroBenefits] = useState([
-    "Профессиональный результат дома",
-    "RF/LED технология нового поколения",
-    "Безопасно и эффективно",
-    "Видимый эффект за 2 недели",
-  ])
-  const [aboutFeatures, setAboutFeatures] = useState([
-    "RF технология — Радиочастотный лифтинг для подтяжки кожи без операций",
-    "LED терапия — Светодиодная терапия для стимуляции регенерации клеток",
-    "ЭМС стимуляция — Электромиостимуляция для тонуса лицевых мышц",
-    "Ионофорез — Глубокое проникновение активных компонентов",
-    "Охлаждение — Успокаивающий эффект после процедур",
-    "Очищение — Глубокая очистка пор от загрязнений",
-  ])
 
   const [faqTitle, setFaqTitle] = useState("")
   const [faqDescription, setFaqDescription] = useState("")
@@ -134,6 +129,32 @@ export function SimpleAdmin() {
   const [orderLoading, setOrderLoading] = useState(true)
   const [orderMessage, setOrderMessage] = useState<string | null>(null)
 
+  const defaultPriceBundle = {
+    title: "",
+    subtitle: "",
+    description: "",
+    itemsTitle: "",
+    items: [{ name: "", price: "" }],
+    totalLabel: "",
+    totalValue: "",
+    bundleLabel: "",
+    bundleValue: "",
+    economyLabel: "",
+    economyValue: "",
+    bonusesTitle: "",
+    bonuses: [{ title: "", description: "" }],
+    ctaTitle: "",
+    ctaDescription: "",
+    ctaButton: "",
+    ctaBenefits: [""],
+    includedTitle: "",
+    includedList: [""]
+  };
+  const [priceBundle, setPriceBundle] = useState(defaultPriceBundle);
+
+  const [orderIncludedTitle, setOrderIncludedTitle] = useState("");
+  const [orderIncludedList, setOrderIncludedList] = useState([""]);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user)
@@ -144,13 +165,54 @@ export function SimpleAdmin() {
 
   useEffect(() => {
     if (activeSection === "faq") {
-      loadFaqContent()
-      loadFaqs()
+      loadFaqContent();
+      loadFaqs();
     }
     if (activeSection === "order") {
-      loadOrderContent()
+      loadOrderContent();
+      getSiteContent().then((data) => {
+        const order = data.find((item: any) => item.section === "order");
+        setOrderIncludedTitle(order?.includedTitle || "");
+        setOrderIncludedList(Array.isArray(order?.includedList) && order.includedList.length > 0 ? order.includedList : [""]);
+      });
     }
-  }, [activeSection])
+    if (activeSection === "hero") {
+      getSiteContent().then((data) => {
+        const hero = data.find((item: any) => item.section === "hero");
+        setHeroBadge(hero?.badge || "");
+        setHeroTitle(hero?.title || "");
+        setHeroDescription(hero?.description || "");
+        setHeroButtonText(hero?.buttonText || "");
+        setHeroSecondaryButtonText(hero?.secondaryButtonText || "");
+        setHeroBenefits(hero?.benefits || []);
+      });
+    }
+    if (activeSection === "about-product") {
+      getSiteContent().then((data) => {
+        const about = data.find((item: any) => item.section === "about-product");
+        setAboutBadge(about?.badge || "");
+        setAboutTitle(about?.title || "");
+        setAboutDescription(about?.description || "");
+        setAboutFeatures(Array.isArray(about?.features) ? about.features : []);
+        setAboutResultsTitle(about?.resultsTitle || "");
+        setAboutResultsDescription(about?.resultsDescription || "");
+        setAboutResults(Array.isArray(about?.results) ? about.results : []);
+      });
+    }
+    if (activeSection === "price-bundle") {
+      getSiteContent().then((data) => {
+        const bundle = data.find((item: any) => item.section === "price-bundle") as any;
+        setPriceBundle({
+          ...defaultPriceBundle,
+          ...bundle,
+          items: Array.isArray(bundle?.items) && bundle.items.length > 0 ? bundle.items : [{ name: "", price: "" }],
+          bonuses: Array.isArray(bundle?.bonuses) && bundle.bonuses.length > 0 ? bundle.bonuses : [{ title: "", description: "" }],
+          ctaBenefits: Array.isArray(bundle?.ctaBenefits) && bundle.ctaBenefits.length > 0 ? bundle.ctaBenefits : [""],
+          includedList: Array.isArray(bundle?.includedList) && bundle.includedList.length > 0 ? bundle.includedList : [""]
+        });
+      });
+    }
+  }, [activeSection]);
 
   const handleLogout = async () => {
     try {
@@ -188,10 +250,13 @@ export function SimpleAdmin() {
       }
       await updateSiteContent("hero", {
         section: "hero",
+        badge: heroBadge,
         title: heroTitle,
         description: heroDescription,
         image: imageUrl || "",
         benefits: heroBenefits,
+        buttonText: heroButtonText,
+        secondaryButtonText: heroSecondaryButtonText,
       })
       setMessage("Сохранено!")
     } catch (e) {
@@ -204,28 +269,32 @@ export function SimpleAdmin() {
 
   // Сохранение секции О продукте
   const handleSaveAbout = async () => {
-    setSaving(true)
+    setSaving(true);
     try {
-      let imageUrl = aboutImage
+      let imageUrl = aboutImage;
       if (aboutImage && aboutImage.startsWith("data:")) {
-        const file = dataURLtoFile(aboutImage, "about-image.png")
-        imageUrl = await uploadImage(file, `siteContent/about-image-${Date.now()}.png`)
+        const file = dataURLtoFile(aboutImage, "about-image.png");
+        imageUrl = await uploadImage(file, `siteContent/about-image-${Date.now()}.png`);
       }
       await updateSiteContent("about-product", {
         section: "about-product",
+        badge: aboutBadge,
         title: aboutTitle,
         description: aboutDescription,
         image: imageUrl || "",
         features: aboutFeatures,
-      })
-      setMessage("Сохранено!")
+        resultsTitle: aboutResultsTitle,
+        resultsDescription: aboutResultsDescription,
+        results: aboutResults,
+      });
+      setMessage("Сохранено!");
     } catch (e) {
-      setMessage("Ошибка при сохранении")
+      setMessage("Ошибка при сохранении");
     } finally {
-      setSaving(false)
-      setTimeout(() => setMessage(null), 2000)
+      setSaving(false);
+      setTimeout(() => setMessage(null), 2000);
     }
-  }
+  };
 
   const loadFaqContent = async () => {
     setFaqLoading(true)
@@ -355,6 +424,8 @@ export function SimpleAdmin() {
         price: orderPrice,
         oldPrice: orderOldPrice,
         economy: orderEconomy,
+        includedTitle: orderIncludedTitle,
+        includedList: orderIncludedList,
       })
       setOrderMessage("Сохранено!")
     } catch {
@@ -364,6 +435,20 @@ export function SimpleAdmin() {
       setTimeout(() => setOrderMessage(null), 2000)
     }
   }
+
+  // Сохранение блока price-bundle
+  const handleSavePriceBundle = async () => {
+    setSaving(true);
+    try {
+      await updateSiteContent("price-bundle", { section: "price-bundle", ...priceBundle });
+      setMessage("Сохранено!");
+    } catch (e) {
+      setMessage("Ошибка при сохранении");
+    } finally {
+      setSaving(false);
+      setTimeout(() => setMessage(null), 2000);
+    }
+  };
 
   // Вспомогательная функция для преобразования base64 в File
   function dataURLtoFile(dataurl: string, filename: string) {
@@ -378,6 +463,15 @@ export function SimpleAdmin() {
     return new File([u8arr], filename, { type: mime })
   }
 
+  const ICON_OPTIONS = [
+    { value: "Zap", label: "Молния (RF)" },
+    { value: "Star", label: "Звезда (LED)" },
+    { value: "Shield", label: "Щит (ЭМС)" },
+    { value: "Heart", label: "Сердце (Ионофорез)" },
+    { value: "Clock", label: "Часы (Охлаждение)" },
+    { value: "CheckCircle", label: "Галочка (Очищение)" },
+  ];
+
   // Рендер формы для выбранной секции
   const renderSectionForm = () => {
     switch (activeSection) {
@@ -387,12 +481,22 @@ export function SimpleAdmin() {
             <h3 className="font-semibold mb-4">Главная секция</h3>
             <div className="space-y-4">
               <div>
-                <Label htmlFor="hero-title">Заголовок</Label>
+                <Label htmlFor="hero-badge">Бейдж</Label>
                 <Input
+                  id="hero-badge"
+                  value={heroBadge}
+                  onChange={e => setHeroBadge(e.target.value)}
+                  placeholder="Бейдж (например, Эксклюзивное предложение)"
+                />
+              </div>
+              <div>
+                <Label htmlFor="hero-title">Заголовок (многострочный)</Label>
+                <Textarea
                   id="hero-title"
                   value={heroTitle}
                   onChange={e => setHeroTitle(e.target.value)}
-                  placeholder="Основной заголовок"
+                  placeholder={"Омоложение\nв домашних условиях\nкак в салоне"}
+                  rows={3}
                 />
               </div>
               <div>
@@ -449,6 +553,24 @@ export function SimpleAdmin() {
                   </Button>
                 </div>
               </div>
+              <div>
+                <Label htmlFor="hero-button-text">Текст главной кнопки</Label>
+                <Input
+                  id="hero-button-text"
+                  value={heroButtonText}
+                  onChange={e => setHeroButtonText(e.target.value)}
+                  placeholder="Заказать набор"
+                />
+              </div>
+              <div>
+                <Label htmlFor="hero-secondary-button-text">Текст второй кнопки</Label>
+                <Input
+                  id="hero-secondary-button-text"
+                  value={heroSecondaryButtonText}
+                  onChange={e => setHeroSecondaryButtonText(e.target.value)}
+                  placeholder="Узнать больше"
+                />
+              </div>
               <Button className="bg-gradient-to-r from-purple-600 to-pink-600" onClick={handleSaveHero} disabled={saving}>
                 <Save className="h-4 w-4 mr-2" />
                 {saving ? "Сохраняю..." : "Сохранить"}
@@ -462,12 +584,21 @@ export function SimpleAdmin() {
             <h3 className="font-semibold mb-4">Секция "О продукте"</h3>
             <div className="space-y-4">
               <div>
+                <Label htmlFor="about-badge">Бейдж</Label>
+                <Input
+                  id="about-badge"
+                  value={aboutBadge}
+                  onChange={e => setAboutBadge(e.target.value)}
+                  placeholder="Главный продукт"
+                />
+              </div>
+              <div>
                 <Label htmlFor="about-title">Заголовок</Label>
                 <Input
                   id="about-title"
                   value={aboutTitle}
                   onChange={e => setAboutTitle(e.target.value)}
-                  placeholder="Заголовок секции"
+                  placeholder="RF/LED устройство IntelliDerm Solutions®"
                 />
               </div>
               <div>
@@ -476,7 +607,7 @@ export function SimpleAdmin() {
                   id="about-description"
                   value={aboutDescription}
                   onChange={e => setAboutDescription(e.target.value)}
-                  placeholder="Описание секции"
+                  placeholder="Многофункциональный аппарат для профессионального ухода за кожей в домашних условиях. 5 функций в одном устройстве."
                   rows={3}
                 />
               </div>
@@ -491,25 +622,110 @@ export function SimpleAdmin() {
                 <Input type="file" accept="image/*" onChange={e => handleImageChange(e, setAboutImage)} />
               </div>
               <div>
-                <Label>5-6 функций устройства</Label>
+                <Label>Функции (features)</Label>
                 <div className="space-y-2">
-                  {aboutFeatures.map((feature, idx) => (
+                  {aboutFeatures.map((feature, idx) => {
+                    // Миграция: если feature — строка, преобразуем в объект
+                    let safeFeature = feature;
+                    if (typeof feature === "string") {
+                      const [title, ...desc] = (feature as string).split("—");
+                      safeFeature = { icon: "Zap", title: title.trim(), description: desc.join("—").trim() };
+                    }
+                    return (
+                      <div key={idx} className="flex flex-col sm:flex-row gap-2 items-start sm:items-center border p-2 rounded-lg">
+                        <select
+                          className="w-32 border rounded px-2 py-1"
+                          value={safeFeature.icon || "Zap"}
+                          onChange={e => {
+                            const updated = [...aboutFeatures];
+                            updated[idx] = { ...safeFeature, icon: e.target.value };
+                            setAboutFeatures(updated);
+                          }}
+                        >
+                          {ICON_OPTIONS.map(opt => (
+                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                          ))}
+                        </select>
+                        <Input
+                          className="flex-1"
+                          value={safeFeature.title}
+                          onChange={e => {
+                            const updated = [...aboutFeatures];
+                            updated[idx] = { ...safeFeature, title: e.target.value };
+                            setAboutFeatures(updated);
+                          }}
+                          placeholder="Заголовок функции"
+                        />
+                        <Input
+                          className="flex-1"
+                          value={safeFeature.description}
+                          onChange={e => {
+                            const updated = [...aboutFeatures];
+                            updated[idx] = { ...safeFeature, description: e.target.value };
+                            setAboutFeatures(updated);
+                          }}
+                          placeholder="Описание функции"
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => setAboutFeatures(aboutFeatures.filter((_, i) => i !== idx))}
+                          disabled={aboutFeatures.length === 1}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    );
+                  })}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setAboutFeatures([...aboutFeatures, { icon: "Zap", title: "", description: "" }])}
+                  >
+                    <Plus className="h-4 w-4 mr-2" />Добавить функцию
+                  </Button>
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="about-results-title">Заголовок результатов</Label>
+                <Input
+                  id="about-results-title"
+                  value={aboutResultsTitle}
+                  onChange={e => setAboutResultsTitle(e.target.value)}
+                  placeholder="Результаты применения"
+                />
+              </div>
+              <div>
+                <Label htmlFor="about-results-description">Описание результатов</Label>
+                <Textarea
+                  id="about-results-description"
+                  value={aboutResultsDescription}
+                  onChange={e => setAboutResultsDescription(e.target.value)}
+                  placeholder="Видимые изменения уже через 2 недели регулярного использования"
+                  rows={2}
+                />
+              </div>
+              <div>
+                <Label>Список результатов</Label>
+                <div className="space-y-2">
+                  {aboutResults.map((result, idx) => (
                     <div key={idx} className="flex gap-2 items-center">
                       <Input
-                        value={feature}
+                        value={result}
                         onChange={e => {
-                          const updated = [...aboutFeatures]
-                          updated[idx] = e.target.value
-                          setAboutFeatures(updated)
+                          const updated = [...aboutResults];
+                          updated[idx] = e.target.value;
+                          setAboutResults(updated);
                         }}
-                        placeholder={`Функция ${idx + 1}`}
+                        placeholder={`Результат ${idx + 1}`}
                       />
                       <Button
                         type="button"
                         variant="outline"
                         size="icon"
-                        onClick={() => setAboutFeatures(aboutFeatures.filter((_, i) => i !== idx))}
-                        disabled={aboutFeatures.length === 1}
+                        onClick={() => setAboutResults(aboutResults.filter((_, i) => i !== idx))}
+                        disabled={aboutResults.length === 1}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -518,9 +734,9 @@ export function SimpleAdmin() {
                   <Button
                     type="button"
                     variant="outline"
-                    onClick={() => setAboutFeatures([...aboutFeatures, ""])}
+                    onClick={() => setAboutResults([...aboutResults, ""])}
                   >
-                    <Plus className="h-4 w-4 mr-2" />Добавить функцию
+                    <Plus className="h-4 w-4 mr-2" />Добавить результат
                   </Button>
                 </div>
               </div>
@@ -529,8 +745,8 @@ export function SimpleAdmin() {
                 {saving ? "Сохраняю..." : "Сохранить"}
               </Button>
             </div>
-    </Card>
-  )
+          </Card>
+        )
       case "products":
         return <ProductsManager />
       case "faq":
@@ -753,6 +969,24 @@ export function SimpleAdmin() {
                   />
                 </div>
               </div>
+              <div>
+                <Label htmlFor="order-included-title">Заголовок блока (например, Что входит в стоимость:)</Label>
+                <Input
+                  id="order-included-title"
+                  value={orderIncludedTitle}
+                  onChange={e => setOrderIncludedTitle(e.target.value)}
+                  placeholder="Заголовок блока (например, Что входит в стоимость:)"
+                />
+              </div>
+              <div className="space-y-2">
+                {(orderIncludedList || []).map((item, idx) => (
+                  <div key={idx} className="flex gap-2 items-center">
+                    <Input className="flex-1" value={item} onChange={e => { const updated = [...orderIncludedList]; updated[idx] = e.target.value; setOrderIncludedList(updated); }} placeholder={`Пункт ${idx + 1}`} />
+                    <Button type="button" variant="outline" size="icon" onClick={() => setOrderIncludedList(orderIncludedList.filter((_, i) => i !== idx))} disabled={orderIncludedList.length === 1}><Trash2 className="h-4 w-4" /></Button>
+                  </div>
+                ))}
+                <Button type="button" variant="outline" onClick={() => setOrderIncludedList([...(orderIncludedList || []), ""])}><Plus className="h-4 w-4 mr-2" />Добавить пункт</Button>
+              </div>
               <Button onClick={handleSaveOrderSection} disabled={orderLoading} className="bg-gradient-to-r from-green-600 to-blue-600">
                 <Save className="h-4 w-4 mr-2" />
                 {orderLoading ? "Сохраняю..." : "Сохранить"}
@@ -763,6 +997,67 @@ export function SimpleAdmin() {
             </div>
           </Card>
         )
+      case "price-bundle":
+        return (
+          <Card className="p-4">
+            <h3 className="font-semibold mb-4">Секция "Спецпредложение"</h3>
+            <div className="space-y-4">
+              <Input value={priceBundle.title} onChange={e => setPriceBundle({ ...priceBundle, title: e.target.value })} placeholder="Заголовок (например, Специальное предложение)" />
+              <Input value={priceBundle.subtitle} onChange={e => setPriceBundle({ ...priceBundle, subtitle: e.target.value })} placeholder="Подзаголовок (например, Полный набор для омоложения)" />
+              <Textarea value={priceBundle.description} onChange={e => setPriceBundle({ ...priceBundle, description: e.target.value })} placeholder="Описание" rows={2} />
+              <Input value={priceBundle.itemsTitle} onChange={e => setPriceBundle({ ...priceBundle, itemsTitle: e.target.value })} placeholder="Заголовок состава (например, Состав набора)" />
+              <div className="space-y-2">
+                {(priceBundle.items || []).map((item, idx) => (
+                  <div key={idx} className="flex gap-2 items-center">
+                    <Input className="flex-1" value={item.name} onChange={e => { const updated = [...priceBundle.items]; updated[idx].name = e.target.value; setPriceBundle({ ...priceBundle, items: updated }); }} placeholder="Название" />
+                    <Input className="w-32" value={item.price} onChange={e => { const updated = [...priceBundle.items]; updated[idx].price = e.target.value; setPriceBundle({ ...priceBundle, items: updated }); }} placeholder="Цена" />
+                    <Button type="button" variant="outline" size="icon" onClick={() => setPriceBundle({ ...priceBundle, items: priceBundle.items.filter((_, i) => i !== idx) })} disabled={priceBundle.items.length === 1}><Trash2 className="h-4 w-4" /></Button>
+                  </div>
+                ))}
+                <Button type="button" variant="outline" onClick={() => setPriceBundle({ ...priceBundle, items: [...(priceBundle.items || []), { name: "", price: "" }] })}><Plus className="h-4 w-4 mr-2" />Добавить товар</Button>
+              </div>
+              <div className="flex gap-2">
+                <Input className="flex-1" value={priceBundle.totalLabel} onChange={e => setPriceBundle({ ...priceBundle, totalLabel: e.target.value })} placeholder="Общая стоимость (подпись)" />
+                <Input className="w-32" value={priceBundle.totalValue} onChange={e => setPriceBundle({ ...priceBundle, totalValue: e.target.value })} placeholder="Общая стоимость (значение)" />
+              </div>
+              <div className="flex gap-2">
+                <Input className="flex-1" value={priceBundle.bundleLabel} onChange={e => setPriceBundle({ ...priceBundle, bundleLabel: e.target.value })} placeholder="Цена набора (подпись)" />
+                <Input className="w-32" value={priceBundle.bundleValue} onChange={e => setPriceBundle({ ...priceBundle, bundleValue: e.target.value })} placeholder="Цена набора (значение)" />
+              </div>
+              <div className="flex gap-2">
+                <Input className="flex-1" value={priceBundle.economyLabel} onChange={e => setPriceBundle({ ...priceBundle, economyLabel: e.target.value })} placeholder="Экономия (подпись)" />
+                <Input className="w-32" value={priceBundle.economyValue} onChange={e => setPriceBundle({ ...priceBundle, economyValue: e.target.value })} placeholder="Экономия (значение)" />
+              </div>
+              <Input value={priceBundle.bonusesTitle} onChange={e => setPriceBundle({ ...priceBundle, bonusesTitle: e.target.value })} placeholder="Заголовок бонусов" />
+              <div className="space-y-2">
+                {(priceBundle.bonuses || []).map((bonus, idx) => (
+                  <div key={idx} className="flex gap-2 items-center">
+                    <Input className="w-32" value={bonus.title} onChange={e => { const updated = [...priceBundle.bonuses]; updated[idx].title = e.target.value; setPriceBundle({ ...priceBundle, bonuses: updated }); }} placeholder="Бонус (заголовок)" />
+                    <Input className="flex-1" value={bonus.description} onChange={e => { const updated = [...priceBundle.bonuses]; updated[idx].description = e.target.value; setPriceBundle({ ...priceBundle, bonuses: updated }); }} placeholder="Описание бонуса" />
+                    <Button type="button" variant="outline" size="icon" onClick={() => setPriceBundle({ ...priceBundle, bonuses: priceBundle.bonuses.filter((_, i) => i !== idx) })} disabled={priceBundle.bonuses.length === 1}><Trash2 className="h-4 w-4" /></Button>
+                  </div>
+                ))}
+                <Button type="button" variant="outline" onClick={() => setPriceBundle({ ...priceBundle, bonuses: [...(priceBundle.bonuses || []), { title: "", description: "" }] })}><Plus className="h-4 w-4 mr-2" />Добавить бонус</Button>
+              </div>
+              <Input value={priceBundle.ctaTitle} onChange={e => setPriceBundle({ ...priceBundle, ctaTitle: e.target.value })} placeholder="Заголовок CTA" />
+              <Textarea value={priceBundle.ctaDescription} onChange={e => setPriceBundle({ ...priceBundle, ctaDescription: e.target.value })} placeholder="Описание CTA" rows={2} />
+              <Input value={priceBundle.ctaButton} onChange={e => setPriceBundle({ ...priceBundle, ctaButton: e.target.value })} placeholder="Текст кнопки" />
+              <div className="space-y-2">
+                {(priceBundle.ctaBenefits || []).map((b, idx) => (
+                  <div key={idx} className="flex gap-2 items-center">
+                    <Input className="flex-1" value={b} onChange={e => { const updated = [...priceBundle.ctaBenefits]; updated[idx] = e.target.value; setPriceBundle({ ...priceBundle, ctaBenefits: updated }); }} placeholder={`Преимущество ${idx + 1}`} />
+                    <Button type="button" variant="outline" size="icon" onClick={() => setPriceBundle({ ...priceBundle, ctaBenefits: priceBundle.ctaBenefits.filter((_, i) => i !== idx) })} disabled={priceBundle.ctaBenefits.length === 1}><Trash2 className="h-4 w-4" /></Button>
+                  </div>
+                ))}
+                <Button type="button" variant="outline" onClick={() => setPriceBundle({ ...priceBundle, ctaBenefits: [...(priceBundle.ctaBenefits || []), ""] })}><Plus className="h-4 w-4 mr-2" />Добавить преимущество</Button>
+              </div>
+              <Button className="bg-gradient-to-r from-green-600 to-emerald-600" onClick={handleSavePriceBundle} disabled={saving}>
+                <Save className="h-4 w-4 mr-2" />
+                {saving ? "Сохраняю..." : "Сохранить"}
+              </Button>
+            </div>
+          </Card>
+        );
       default:
         return null
     }
@@ -774,6 +1069,7 @@ export function SimpleAdmin() {
     { id: "products", name: "Продукты", icon: ListOrdered },
     { id: "faq", name: "FAQ", icon: HelpCircle },
     { id: "order", name: "Заказать", icon: Send },
+    { id: "price-bundle", name: "Спецпредложение", icon: Package },
   ]
 
   if (loading) {

@@ -82,17 +82,24 @@ export interface SiteContent {
   subtitle: string
   description: string
   buttonText?: string
+  secondaryButtonText?: string // добавлено
+  badge?: string // добавлено
   image?: string
   isActive: boolean
   seoTitle?: string
   seoDescription?: string
   benefits?: string[] | { title: string; description: string }[]
-  features?: string[]
+  features?: { icon: string; title: string; description: string }[] // уточнено для about-product
+  resultsTitle?: string // добавлено
+  resultsDescription?: string // добавлено
+  results?: string[] // добавлено
   contacts?: { type: string; value: string; description: string }[]
   workTime?: string
   price?: string
   oldPrice?: string
   economy?: string
+  includedTitle?: string // добавлено для блока 'Что входит в стоимость'
+  includedList?: string[] // добавлено для блока 'Что входит в стоимость'
   createdAt: Date
   updatedAt: Date
 }
