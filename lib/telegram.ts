@@ -1,7 +1,7 @@
 export const TELEGRAM_PHONE = "+79899024352";
 
 export function getTelegramLink(message?: string): string {
-  const baseUrl = "https://t.me/79899024352";
+  const baseUrl = "https://t.me/79898024352";
   if (message) {
     const encodedMessage = encodeURIComponent(message);
     return `${baseUrl}?text=${encodedMessage}`;
