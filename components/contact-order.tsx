@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { MessageCircle, Send, Phone, Clock, Shield, Truck } from "lucide-react"
 import { FC } from "react";
+import { openWhatsApp } from "@/lib/whatsapp"
+import { openTelegram } from "@/lib/telegram"
 
 interface Contact {
   type: string;
@@ -74,7 +76,15 @@ export const ContactOrder: FC<ContactOrderProps> = ({ section }) => {
                       key={idx}
                       size="lg"
                       className={`w-full ${contact.type === "whatsapp" ? "bg-green-500 hover:bg-green-600" : contact.type === "telegram" ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-400 hover:bg-gray-500"} text-white px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg h-auto`}
-                      onClick={() => window.open(contact.value, "_blank")}
+                      onClick={() => {
+                        if (contact.type === "whatsapp") {
+                          openWhatsApp();
+                        } else if (contact.type === "telegram") {
+                          openTelegram();
+                        } else {
+                          window.open(contact.value, "_blank");
+                        }
+                      }}
                     >
                       <Icon className="mr-2 sm:mr-4 h-6 w-6 sm:h-8 sm:w-8" />
                       <div className="text-left">

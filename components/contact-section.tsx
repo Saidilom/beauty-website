@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { MessageCircle, Send, Phone } from "lucide-react"
+import { openWhatsApp } from "@/lib/whatsapp"
+import { openTelegram } from "@/lib/telegram"
 
 export function ContactSection() {
   return (
@@ -19,7 +21,7 @@ export function ContactSection() {
               <Button
                 size="lg"
                 className="bg-green-500 hover:bg-green-600 text-white px-8 py-6 text-lg h-auto"
-                onClick={() => window.open("https://wa.me/79898024352", "_blank")}
+                onClick={() => openWhatsApp()}
               >
                 <MessageCircle className="mr-3 h-6 w-6" />
                 <div className="text-left">
@@ -31,7 +33,7 @@ export function ContactSection() {
               <Button
                 size="lg"
                 className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-6 text-lg h-auto"
-                onClick={() => window.open("https://t.me/79898024352", "_blank")}
+                onClick={() => openTelegram()}
               >
                 <Send className="mr-3 h-6 w-6" />
                 <div className="text-left">

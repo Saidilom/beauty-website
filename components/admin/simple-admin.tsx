@@ -113,7 +113,7 @@ export function SimpleAdmin() {
   const [orderDescription, setOrderDescription] = useState("")
   const [orderButtonText, setOrderButtonText] = useState("")
   const [orderContacts, setOrderContacts] = useState([
-    { type: "phone", value: "+7 (989) 802-43-52", description: "" },
+    { type: "phone", value: "+7 (989) 902-43-52", description: "" },
     { type: "whatsapp", value: "WhatsApp", description: "Быстрое оформление заказа" },
     { type: "telegram", value: "Telegram", description: "Удобное общение и консультации" },
   ])
@@ -391,7 +391,7 @@ export function SimpleAdmin() {
       setOrderDescription(orderSection?.description || "Свяжитесь с нами любым удобным способом для оформления заказа и получения консультации")
       setOrderButtonText(orderSection?.buttonText || "Способы связи")
       setOrderContacts(orderSection?.contacts || [
-        { type: "phone", value: "+7 (989) 802-43-52", description: "" },
+        { type: "phone", value: "+7 (989) 902-43-52", description: "" },
         { type: "whatsapp", value: "WhatsApp", description: "Быстрое оформление заказа" },
         { type: "telegram", value: "Telegram", description: "Удобное общение и консультации" },
       ])
