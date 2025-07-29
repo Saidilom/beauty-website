@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Plus, Edit, Trash2, Save, X, Package, Star, ImageIcon } from "lucide-react"
+import { Plus, Edit, Trash2, Save, X, Package, Star, ImageIcon, Droplets, Zap, Activity, Thermometer } from "lucide-react"
 import Image from "next/image"
 import {
   getProducts,
@@ -35,6 +35,57 @@ export function ProductsManager() {
   const [sectionDescription, setSectionDescription] = useState("")
   const [sectionLoading, setSectionLoading] = useState(true)
   const [sectionMessage, setSectionMessage] = useState<string | null>(null)
+
+  // Состояния для функций устройства
+  const [deviceFunctions, setDeviceFunctions] = useState([
+    {
+      title: "Очищение",
+      description: "Гальванический ток удаляет загрязнения с мицеллярной водой/тоником Mary Kay®",
+      icon: "Droplets",
+      color: "blue"
+    },
+    {
+      title: "Ионофорез",
+      description: "Усиливает проникновение сывороток/крема Mary Kay® гальваническим током",
+      icon: "Zap",
+      color: "purple"
+    },
+    {
+      title: "ЭМС",
+      description: "Электромиостимуляция укрепляет мышцы, подтягивает кожу и разглаживает морщины (с сывороткой/кремом Mary Kay®)",
+      icon: "Activity",
+      color: "green"
+    },
+    {
+      title: "RF/LED",
+      description: "Радиочастотный лифтинг и LED-терапия (красный свет) стимулируют коллаген, подтягивают кожу и улучшают тургор (с сывороткой/кремом Mary Kay®)",
+      icon: "Zap",
+      color: "pink"
+    },
+    {
+      title: "Охлаждение",
+      description: "Охлаждение и синий свет успокаивают кожу и сужают поры (с/без крема Mary Kay®)",
+      icon: "Thermometer",
+      color: "cyan"
+    }
+  ])
+  const [deviceFunctionsLoading, setDeviceFunctionsLoading] = useState(true)
+  const [deviceFunctionsMessage, setDeviceFunctionsMessage] = useState<string | null>(null)
+
+  const DEVICE_FUNCTION_ICONS = [
+    { value: "Droplets", label: "Капли (Очищение)" },
+    { value: "Zap", label: "Молния (Ионофорез/RF/LED)" },
+    { value: "Activity", label: "Активность (ЭМС)" },
+    { value: "Thermometer", label: "Термометр (Охлаждение)" },
+  ]
+
+  const COLOR_OPTIONS = [
+    { value: "blue", label: "Синий" },
+    { value: "purple", label: "Фиолетовый" },
+    { value: "green", label: "Зеленый" },
+    { value: "pink", label: "Розовый" },
+    { value: "cyan", label: "Голубой" },
+  ]
 
   const [formData, setFormData] = useState({
     name: "",
@@ -66,15 +117,22 @@ export function ProductsManager() {
 
   const loadSectionContent = async () => {
     setSectionLoading(true)
+    setDeviceFunctionsLoading(true)
     try {
       const content = await getSiteContent()
       const productsSection = content.find(c => c.section === "products")
       setSectionTitle(productsSection?.title || "")
       setSectionDescription(productsSection?.description || "")
+      
+      // Загружаем функции устройства
+      if (productsSection?.deviceFunctions) {
+        setDeviceFunctions(productsSection.deviceFunctions)
+      }
     } catch (e) {
       //
     } finally {
       setSectionLoading(false)
+      setDeviceFunctionsLoading(false)
     }
   }
 
@@ -92,6 +150,22 @@ export function ProductsManager() {
     } finally {
       setSectionLoading(false)
       setTimeout(() => setSectionMessage(null), 2000)
+    }
+  }
+
+  const handleSaveDeviceFunctions = async () => {
+    setDeviceFunctionsLoading(true)
+    try {
+      await updateSiteContent("products", {
+        section: "products",
+        deviceFunctions: deviceFunctions
+      })
+      setDeviceFunctionsMessage("Функции устройства сохранены!")
+    } catch (e) {
+      setDeviceFunctionsMessage("Ошибка при сохранении")
+    } finally {
+      setDeviceFunctionsLoading(false)
+      setTimeout(() => setDeviceFunctionsMessage(null), 2000)
     }
   }
 
@@ -251,6 +325,118 @@ export function ProductsManager() {
           </Button>
           {sectionMessage && (
             <div className={`mt-2 p-2 rounded text-center ${sectionMessage === "Сохранено!" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>{sectionMessage}</div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Блок редактирования функций устройства */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Функции устройства</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <Label>Функции устройства</Label>
+            <div className="space-y-4">
+              {deviceFunctions.map((func, idx) => (
+                <Card key={idx} className="p-4 border-2">
+                  <div className="space-y-3">
+                    <div className="flex gap-2">
+                      <div className="flex-1">
+                        <Label>Название функции</Label>
+                        <Input
+                          value={func.title}
+                          onChange={e => {
+                            const updated = [...deviceFunctions]
+                            updated[idx].title = e.target.value
+                            setDeviceFunctions(updated)
+                          }}
+                          placeholder="Название функции"
+                        />
+                      </div>
+                      <div className="w-32">
+                        <Label>Иконка</Label>
+                        <select
+                          value={func.icon}
+                          onChange={(e) => {
+                            const updated = [...deviceFunctions]
+                            updated[idx].icon = e.target.value
+                            setDeviceFunctions(updated)
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        >
+                          {DEVICE_FUNCTION_ICONS.map((icon) => (
+                            <option key={icon.value} value={icon.value}>
+                              {icon.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="w-32">
+                        <Label>Цвет</Label>
+                        <select
+                          value={func.color}
+                          onChange={(e) => {
+                            const updated = [...deviceFunctions]
+                            updated[idx].color = e.target.value
+                            setDeviceFunctions(updated)
+                          }}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        >
+                          {COLOR_OPTIONS.map((color) => (
+                            <option key={color.value} value={color.value}>
+                              {color.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div>
+                      <Label>Описание</Label>
+                      <Textarea
+                        value={func.description}
+                        onChange={e => {
+                          const updated = [...deviceFunctions]
+                          updated[idx].description = e.target.value
+                          setDeviceFunctions(updated)
+                        }}
+                        placeholder="Описание функции"
+                        rows={3}
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setDeviceFunctions(deviceFunctions.filter((_, i) => i !== idx))}
+                      disabled={deviceFunctions.length === 1}
+                      className="text-red-600"
+                    >
+                      <Trash2 className="h-4 w-4 mr-2" />Удалить функцию
+                    </Button>
+                  </div>
+                </Card>
+              ))}
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => setDeviceFunctions([...deviceFunctions, {
+                  title: "",
+                  description: "",
+                  icon: "Zap",
+                  color: "blue"
+                }])}
+              >
+                <Plus className="h-4 w-4 mr-2" />Добавить функцию
+              </Button>
+            </div>
+          </div>
+          <Button onClick={handleSaveDeviceFunctions} disabled={deviceFunctionsLoading} className="bg-gradient-to-r from-blue-600 to-purple-600">
+            <Save className="h-4 w-4 mr-2" />
+            {deviceFunctionsLoading ? "Сохраняю..." : "Сохранить функции устройства"}
+          </Button>
+          {deviceFunctionsMessage && (
+            <div className={`mt-2 p-2 rounded text-center ${deviceFunctionsMessage === "Функции устройства сохранены!" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>{deviceFunctionsMessage}</div>
           )}
         </CardContent>
       </Card>

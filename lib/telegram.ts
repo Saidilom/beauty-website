@@ -12,4 +12,4 @@ export function getTelegramLink(message?: string): string {
 export function openTelegram(message?: string): void {
   const link = getTelegramLink(message);
   window.open(link, "_blank");
-} 
+}   

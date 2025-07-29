@@ -4,10 +4,18 @@ import { FC } from "react";
 import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Droplets, Zap, Activity, Thermometer } from "lucide-react"
 import { Product } from "@/lib/firebase-admin";
 
+interface DeviceFunction {
+  title: string;
+  description: string;
+  icon: string;
+  color: string;
+}
+
 interface AdditionalProductsProps {
-  section: { title?: string; description?: string };
+  section: { title?: string; description?: string; deviceFunctions?: DeviceFunction[] };
   products: Product[];
 }
 
@@ -79,6 +87,42 @@ export const AdditionalProducts: FC<AdditionalProductsProps> = ({ section, produ
     ? [...products].sort((a, b) => (a.order || 0) - (b.order || 0))
     : defaultProducts;
 
+  // Дефолтные функции устройства
+  const defaultDeviceFunctions = [
+    {
+      title: "Очищение",
+      description: "Гальванический ток удаляет загрязнения с мицеллярной водой/тоником Mary Kay®",
+      icon: "Droplets",
+      color: "blue"
+    },
+    {
+      title: "Ионофорез",
+      description: "Усиливает проникновение сывороток/крема Mary Kay® гальваническим током",
+      icon: "Zap",
+      color: "purple"
+    },
+    {
+      title: "ЭМС",
+      description: "Электромиостимуляция укрепляет мышцы, подтягивает кожу и разглаживает морщины (с сывороткой/кремом Mary Kay®)",
+      icon: "Activity",
+      color: "green"
+    },
+    {
+      title: "RF/LED",
+      description: "Радиочастотный лифтинг и LED-терапия (красный свет) стимулируют коллаген, подтягивают кожу и улучшают тургор (с сывороткой/кремом Mary Kay®)",
+      icon: "Zap",
+      color: "pink"
+    },
+    {
+      title: "Охлаждение",
+      description: "Охлаждение и синий свет успокаивают кожу и сужают поры (с/без крема Mary Kay®)",
+      icon: "Thermometer",
+      color: "cyan"
+    }
+  ];
+
+  const deviceFunctions = section?.deviceFunctions || defaultDeviceFunctions;
+
   if (!section && displayProducts.length === 0) return null;
 
   return (
@@ -99,6 +143,34 @@ export const AdditionalProducts: FC<AdditionalProductsProps> = ({ section, produ
             </p>
           )}
         </div>
+
+        {/* Функции устройства */}
+        <div className="mb-10 sm:mb-16">
+          <h3 className="text-xl sm:text-2xl font-bold mb-6 sm:mb-8 text-gray-800 text-center">Функции устройства</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
+            {deviceFunctions.map((func, index) => {
+              const Icon = func.icon === "Droplets" ? Droplets : 
+                          func.icon === "Zap" ? Zap : 
+                          func.icon === "Activity" ? Activity : 
+                          func.icon === "Thermometer" ? Thermometer : Zap;
+              
+              return (
+                <div key={index} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-200">
+                  <div className="p-6">
+                    <div className="text-center">
+                      <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                        <Icon className="h-8 w-8 text-gray-700" />
+                      </div>
+                      <h4 className="font-bold text-gray-900 text-lg mb-3">{func.title}</h4>
+                      <p className="text-gray-600 text-sm leading-6">{func.description}</p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 mb-8 sm:mb-12">
           {displayProducts.map((product) => (
             <Card key={product.id} className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer overflow-hidden bg-white">

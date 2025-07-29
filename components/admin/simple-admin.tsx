@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { AdminLogin } from "./admin-login"
 import {
   LayoutDashboard,
@@ -155,6 +156,40 @@ export function SimpleAdmin() {
   const [orderIncludedTitle, setOrderIncludedTitle] = useState("");
   const [orderIncludedList, setOrderIncludedList] = useState([""]);
 
+  // Состояния для функций устройства
+  const [deviceFunctions, setDeviceFunctions] = useState([
+    {
+      title: "Очищение",
+      description: "Гальванический ток удаляет загрязнения с мицеллярной водой/тоником Mary Kay®",
+      icon: "Droplets",
+      color: "blue"
+    },
+    {
+      title: "Ионофорез",
+      description: "Усиливает проникновение сывороток/крема Mary Kay® гальваническим током",
+      icon: "Zap",
+      color: "purple"
+    },
+    {
+      title: "ЭМС",
+      description: "Электромиостимуляция укрепляет мышцы, подтягивает кожу и разглаживает морщины (с сывороткой/кремом Mary Kay®)",
+      icon: "Activity",
+      color: "green"
+    },
+    {
+      title: "RF/LED",
+      description: "Радиочастотный лифтинг и LED-терапия (красный свет) стимулируют коллаген, подтягивают кожу и улучшают тургор (с сывороткой/кремом Mary Kay®)",
+      icon: "Zap",
+      color: "pink"
+    },
+    {
+      title: "Охлаждение",
+      description: "Охлаждение и синий свет успокаивают кожу и сужают поры (с/без крема Mary Kay®)",
+      icon: "Thermometer",
+      color: "cyan"
+    }
+  ]);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user)
@@ -174,6 +209,14 @@ export function SimpleAdmin() {
         const order = data.find((item: any) => item.section === "order");
         setOrderIncludedTitle(order?.includedTitle || "");
         setOrderIncludedList(Array.isArray(order?.includedList) && order.includedList.length > 0 ? order.includedList : [""]);
+      });
+    }
+    if (activeSection === "products") {
+      getSiteContent().then((data) => {
+        const products = data.find((item: any) => item.section === "products");
+        if (products?.deviceFunctions) {
+          setDeviceFunctions(products.deviceFunctions);
+        }
       });
     }
     if (activeSection === "hero") {
@@ -450,6 +493,22 @@ export function SimpleAdmin() {
     }
   };
 
+  const handleSaveDeviceFunctions = async () => {
+    setSaving(true);
+    try {
+      await updateSiteContent("products", { 
+        section: "products", 
+        deviceFunctions: deviceFunctions 
+      });
+      setMessage("Функции устройства сохранены!");
+    } catch (e) {
+      setMessage("Ошибка при сохранении");
+    } finally {
+      setSaving(false);
+      setTimeout(() => setMessage(null), 2000);
+    }
+  };
+
   // Вспомогательная функция для преобразования base64 в File
   function dataURLtoFile(dataurl: string, filename: string) {
     const arr = dataurl.split(",")
@@ -470,6 +529,21 @@ export function SimpleAdmin() {
     { value: "Heart", label: "Сердце (Ионофорез)" },
     { value: "Clock", label: "Часы (Охлаждение)" },
     { value: "CheckCircle", label: "Галочка (Очищение)" },
+  ];
+
+  const DEVICE_FUNCTION_ICONS = [
+    { value: "Droplets", label: "Капли (Очищение)" },
+    { value: "Zap", label: "Молния (Ионофорез/RF/LED)" },
+    { value: "Activity", label: "Активность (ЭМС)" },
+    { value: "Thermometer", label: "Термометр (Охлаждение)" },
+  ];
+
+  const COLOR_OPTIONS = [
+    { value: "blue", label: "Синий" },
+    { value: "purple", label: "Фиолетовый" },
+    { value: "green", label: "Зеленый" },
+    { value: "pink", label: "Розовый" },
+    { value: "cyan", label: "Голубой" },
   ];
 
   // Рендер формы для выбранной секции
@@ -811,6 +885,123 @@ export function SimpleAdmin() {
                   </div>
                 </Card>
               )}
+            </div>
+          </Card>
+        )
+      case "products":
+        return (
+          <Card className="p-4">
+            <h3 className="font-semibold mb-4">Функции устройства</h3>
+            <div className="space-y-4">
+              <div>
+                <Label>Функции устройства</Label>
+                <div className="space-y-4">
+                  {deviceFunctions.map((func, idx) => (
+                    <Card key={idx} className="p-4 border-2">
+                      <div className="space-y-3">
+                        <div className="flex gap-2">
+                          <div className="flex-1">
+                            <Label>Название функции</Label>
+                            <Input
+                              value={func.title}
+                              onChange={e => {
+                                const updated = [...deviceFunctions]
+                                updated[idx].title = e.target.value
+                                setDeviceFunctions(updated)
+                              }}
+                              placeholder="Название функции"
+                            />
+                          </div>
+                          <div className="w-32">
+                            <Label>Иконка</Label>
+                            <Select
+                              value={func.icon}
+                              onValueChange={(value) => {
+                                const updated = [...deviceFunctions]
+                                updated[idx].icon = value
+                                setDeviceFunctions(updated)
+                              }}
+                            >
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {DEVICE_FUNCTION_ICONS.map((icon) => (
+                                  <SelectItem key={icon.value} value={icon.value}>
+                                    {icon.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="w-32">
+                            <Label>Цвет</Label>
+                            <Select
+                              value={func.color}
+                              onValueChange={(value) => {
+                                const updated = [...deviceFunctions]
+                                updated[idx].color = value
+                                setDeviceFunctions(updated)
+                              }}
+                            >
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {COLOR_OPTIONS.map((color) => (
+                                  <SelectItem key={color.value} value={color.value}>
+                                    {color.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                        <div>
+                          <Label>Описание</Label>
+                          <Textarea
+                            value={func.description}
+                            onChange={e => {
+                              const updated = [...deviceFunctions]
+                              updated[idx].description = e.target.value
+                              setDeviceFunctions(updated)
+                            }}
+                            placeholder="Описание функции"
+                            rows={3}
+                          />
+                        </div>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setDeviceFunctions(deviceFunctions.filter((_, i) => i !== idx))}
+                          disabled={deviceFunctions.length === 1}
+                          className="text-red-600"
+                        >
+                          <Trash2 className="h-4 w-4 mr-2" />Удалить функцию
+                        </Button>
+                      </div>
+                    </Card>
+                  ))}
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setDeviceFunctions([...deviceFunctions, {
+                      title: "",
+                      description: "",
+                      icon: "Zap",
+                      color: "blue"
+                    }])}
+                  >
+                    <Plus className="h-4 w-4 mr-2" />Добавить функцию
+                  </Button>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <Button onClick={handleSaveDeviceFunctions} className="bg-gradient-to-r from-blue-600 to-purple-600">
+                  Сохранить функции устройства
+                </Button>
+              </div>
             </div>
           </Card>
         )

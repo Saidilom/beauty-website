@@ -53,6 +53,19 @@ export const Hero: FC<HeroProps> = ({ content }) => {
                 </p>
               )}
             </div>
+            {/* Mobile Image - только для мобильных устройств */}
+            <div className="lg:hidden mt-6 mb-6">
+              <div className="relative w-full max-w-sm mx-auto">
+                <Image
+                  src="/gur/rur.jpg"
+                  alt="RF/LED устройство IntelliDerm Solutions® + премиальная косметика Mary Kay"
+                  width={400}
+                  height={300}
+                  className="w-full h-auto rounded-2xl shadow-lg"
+                  priority
+                />
+              </div>
+            </div>
             {/* Benefits */}
             {benefits.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-6">
