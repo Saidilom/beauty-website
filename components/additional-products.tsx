@@ -75,7 +75,7 @@ const defaultProducts = [
     image: "/images/INTELLIDERM-AMPOULE-WRINKLE-DEFENSE (2).png",
     category: "Ампула",
     price: "4,800 ₽",
-    shortName: "Ампула против морщин",
+    shortName: "Сыворотка-концентрат для сокращения морщин",
     description: "Интенсивное воздействие на признаки старения с матричными пептидами",
     benefits: ["Против морщин", "Матричные пептиды", "Интенсивный уход"],
     order: 6,
