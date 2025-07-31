@@ -355,8 +355,9 @@ export const deleteFAQ = async (id: string): Promise<void> => {
 // ==================== SITE CONTENT ====================
 export const getSiteContent = async (): Promise<SiteContent[]> => {
   try {
+    console.log("Fetching site content from Firebase...")
     const querySnapshot = await getDocs(collection(db, "siteContent"))
-    return querySnapshot.docs.map(
+    const content = querySnapshot.docs.map(
       (doc) =>
         ({
           id: doc.id,
@@ -365,9 +366,12 @@ export const getSiteContent = async (): Promise<SiteContent[]> => {
           updatedAt: doc.data().updatedAt?.toDate() || new Date(),
         }) as SiteContent,
     )
+    console.log("Site content loaded:", content.length, "items")
+    return content
   } catch (error) {
     console.error("Error getting site content:", error)
-    throw error
+    // Возвращаем пустой массив вместо выброса ошибки
+    return []
   }
 }
 

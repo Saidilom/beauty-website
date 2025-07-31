@@ -10,7 +10,12 @@ import { getSiteContent } from "@/lib/firebase-admin-service";
 import { getProducts } from "@/lib/firebase-admin-service";
 import { getFAQs } from "@/lib/firebase-admin-service";
 
+// Отключаем кэширование для этой страницы
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function Home() {
+  // Отключаем кэширование для динамических данных
   const content = await getSiteContent();
   const heroContent = content.find((item) => item.section === "hero");
   const aboutContent = content.find((item) => item.section === "about-product");

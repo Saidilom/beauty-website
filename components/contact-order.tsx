@@ -29,6 +29,7 @@ interface OrderSection {
   price?: string;
   oldPrice?: string;
   economy?: string;
+  priceTitle?: string;
   includedTitle?: string;
   includedList?: string[];
 }
@@ -45,6 +46,9 @@ interface ContactOrderProps {
 }
 
 export const ContactOrder: FC<ContactOrderProps> = ({ section }) => {
+  // Добавляем логирование для отладки
+  console.log("ContactOrder section data:", section)
+  
   const advantages = Array.isArray(section?.benefits)
     ? section.benefits.map((b, i) => ({
         icon: ADVANTAGE_ICONS[i % ADVANTAGE_ICONS.length],
@@ -118,7 +122,7 @@ export const ContactOrder: FC<ContactOrderProps> = ({ section }) => {
               </Card>
             ))}
             <Card className="p-4 sm:p-6 bg-white text-center border-gray-200">
-              <h4 className="text-base sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">Специальная цена действует ограниченное время!</h4>
+              <h4 className="text-base sm:text-xl font-bold text-gray-800 mb-2 sm:mb-4">{section?.priceTitle || "Специальная цена действует ограниченное время!"}</h4>
               <div className="text-xl sm:text-3xl font-bold text-purple-600 mb-1 sm:mb-2">{section?.price || ""}</div>
               <div className="text-gray-500 line-through mb-2 sm:mb-4">{section?.oldPrice || ""}</div>
               <Badge className="bg-red-500 text-white px-3 sm:px-4 py-1 sm:py-2">{section?.economy || ""}</Badge>

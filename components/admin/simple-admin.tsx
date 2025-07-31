@@ -127,6 +127,7 @@ export function SimpleAdmin() {
   const [orderPrice, setOrderPrice] = useState("52,000 ₽")
   const [orderOldPrice, setOrderOldPrice] = useState("67,100 ₽")
   const [orderEconomy, setOrderEconomy] = useState("Экономия 15,100 ₽")
+  const [orderPriceTitle, setOrderPriceTitle] = useState("Специальная цена действует ограниченное время!")
   const [orderLoading, setOrderLoading] = useState(true)
   const [orderMessage, setOrderMessage] = useState<string | null>(null)
 
@@ -447,6 +448,7 @@ export function SimpleAdmin() {
       setOrderPrice(orderSection?.price || "52,000 ₽")
       setOrderOldPrice(orderSection?.oldPrice || "67,100 ₽")
       setOrderEconomy(orderSection?.economy || "Экономия 15,100 ₽")
+      setOrderPriceTitle(orderSection?.priceTitle || "Специальная цена действует ограниченное время!")
     } finally {
       setOrderLoading(false)
     }
@@ -467,6 +469,7 @@ export function SimpleAdmin() {
         price: orderPrice,
         oldPrice: orderOldPrice,
         economy: orderEconomy,
+        priceTitle: orderPriceTitle,
         includedTitle: orderIncludedTitle,
         includedList: orderIncludedList,
       })
@@ -1127,6 +1130,16 @@ export function SimpleAdmin() {
                   ))}
                   <Button type="button" variant="outline" onClick={() => setOrderBenefits([...orderBenefits, { title: "", description: "" }])}><Plus className="h-4 w-4 mr-2" />Добавить преимущество</Button>
                 </div>
+              </div>
+              <div>
+                <Label htmlFor="order-price-title">Заголовок блока с ценой</Label>
+                <Input
+                  id="order-price-title"
+                  value={orderPriceTitle}
+                  onChange={e => setOrderPriceTitle(e.target.value)}
+                  placeholder="Специальная цена действует ограниченное время!"
+                  disabled={orderLoading}
+                />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
